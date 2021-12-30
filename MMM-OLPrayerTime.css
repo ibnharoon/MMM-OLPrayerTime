@@ -1,0 +1,126 @@
+@-webkit-keyframes marquee {
+  0% { left: 100%; }
+  100% { left: -100%; }
+}
+
+@-moz-keyframes marquee {
+  0% { left: 100%; }
+  100% { left: -100%; }
+}
+
+@-ms-keyframes marquee {
+  0% { left: 100%; }
+  100% { left: -100%; }
+}
+
+@-o-keyframes marquee {
+  0% { left: 100%; }
+  100% { left: -100%; }
+}
+
+/*
+@keyframes marquee {
+	0% { transform: translate(200%, 0); }
+	25% { transform: translate(100%, 0); }
+	50% { transform: translate(0%, 0); }
+	75% { transform: translate(-100%, 0); }
+	100% { transform: translate(-200%, 0); }
+}
+*/
+
+@keyframes marquee {
+	0% {
+		-webkit-transform: translate3d(100%, 0, 0);
+		transform: translate3d(100%, 0, 0);
+		visibility: visible;
+	}
+	100% {
+		-webkit-transform: translate3d(-200%, 0, 0);
+		transform: translate3d(-200%, 0, 0);
+	}
+}
+
+@keyframes blink {
+	0% { color: #fff; }
+	49% { color: #fff; }
+	60% { color: transparent; }
+	99% { color: transparent; }
+	100% { color: #fff; }
+}
+
+.MMM-OLPrayerTime table {
+  width: 280px;
+}
+
+.MMM-OLPrayerTime td {
+  width: 190px;
+}
+
+.MMM-OLPrayerTime .current-date {
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+.MMM-OLPrayerTime .prayer-name {
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+.MMM-OLPrayerTime .prayer-time {
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+.MMM-OLPrayerTime .highlight {
+	background-color: white;
+	color: black;
+	font-weight: bold;
+}
+
+/*
+.MMM-OLPrayerTime .ticker {
+	margin: 0 auto;
+	width: 100%;
+	padding-top: 5px;
+	position: relative;
+	white-space: nowrap;
+	overflow: visible;
+	-webkit-animation: marquee linear infinite;
+	-moz-animation: marquee linear infinite;
+	-ms-animation: marquee linear infinite;
+	-o-animation: marquee linear infinite;
+	animation: marquee linear infinite;
+	animation-duration: 20s;
+}
+*/
+
+.MMM-OLPrayerTime .ticker {
+	transform: translate(-65px, 0);
+    margin: 0 auto;
+}
+
+.MMM-OLPrayerTime .tickercontent {
+	font-size: 40px;
+	font-weight: bold;
+}
+
+/*
+.MMM-OLPrayerTime .highlightblink {
+	background-color: white;
+	color: black;
+	font-weight: bold;
+	animation: blink linear infinite;
+	animation-duration: 2s;
+}
+*/
+
+.MMM-OLPrayerTime .blink {
+	background-color: black;
+	color: white;
+	font-weight: bold;
+	animation: blink linear infinite;
+	animation-duration: 2s;
+}

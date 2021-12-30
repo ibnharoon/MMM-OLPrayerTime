@@ -1,0 +1,15 @@
+{
+  "name": "mmm-olprayertime",
+  "version": "1.0.0",
+  "description": "This is a module for the [MagicMirror](https://github.com/MichMich/MagicMirror). It will show Muslim prayer times.",
+  "main": "MMM-OLPrayerTime.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment-hijri": "^2.1.2",
+    "prayer-times": "^0.1.0"
+  }
+}
