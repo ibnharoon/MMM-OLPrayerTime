@@ -1,4 +1,3 @@
-
 Module.register("MMM-OLPrayerTime", {
     // Default module config.
     defaults: {
@@ -14,7 +13,7 @@ Module.register("MMM-OLPrayerTime", {
     },
 
     getScripts: function() {
-        return [this.file('node_modules/moment-hijri/moment-hijri.js')]
+        return ['moment.js', 'moment-hijri.js']
     },
 
     getStyles: function() {
