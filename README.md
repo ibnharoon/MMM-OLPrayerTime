@@ -49,8 +49,7 @@ Off-line Prayer Time module for MagicMirror
 
 6. Install vendor modules:
 
-`cd ../vendor`
-
+`cd ../vendor`  
 `npm install`
 
 7. Start the application:
