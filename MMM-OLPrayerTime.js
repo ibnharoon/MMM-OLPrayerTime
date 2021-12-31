@@ -13,7 +13,7 @@ Module.register("MMM-OLPrayerTime", {
     },
 
     getScripts: function() {
-        return ['moment.js', 'moment-hijri.js']
+        return ['moment.js', this.file('node_modules/moment-hijri/moment-hijri.js')]
     },
 
     getStyles: function() {
