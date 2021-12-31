@@ -24,7 +24,7 @@ Off-line Prayer Time module for MagicMirror
 
 `cp config/config.js.sample config/config.js`
 
-6. Add module entry to config.js eg:
+6. Add module entry to config.js (see below for module options) eg:
 
 `modules: [  
 ...  
@@ -56,3 +56,5 @@ Off-line Prayer Time module for MagicMirror
 
 `cd ..`  
 `npm run start`
+
+### Module Options
