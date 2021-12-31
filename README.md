@@ -17,49 +17,34 @@ Off-line Prayer Time module for MagicMirror
 
 4. Install this module:
 
-`cd modules`
+`cd modules`  
 `git clone https://github.com/ibnharoon/MMM-OLPrayerTime.git`
 
-4. Make a copy of the config sample file:
+5. Make a copy of the config sample file:
 
 `cp config/config.js.sample config/config.js`
 
-5. Add module entry to config.js eg:
+6. Add module entry to config.js eg:
 
-> modules: [
->
->   ... 
->   
->   ... 
->  
-> 		{
->
->			module: 'MMM-OLPrayerTime',
->
->			position: 'middle_center',
->
->                        header: 'Prayer Times',
->                        
->			config: {
->			
->				latitude: 37.3391931,
->				
->				longitude: -121.9389783
->				
->			}
->			
->		}
->		
-> ...
-> 
-> ...
-> 
-> ]
+`modules: [  
+...  
+...  
+> 		{  
+>			module: 'MMM-OLPrayerTime',  
+>			position: 'middle_center',  
+>                        header: 'Prayer Times',  
+>			config: {  
+>				latitude: 37.3391931,  
+>				longitude: -121.9389783  
+>			}  
+>		}  
+...  
+...  
+]`  
 
 5. Install the required modules:
 
-`cd modules/MMM-OLPrayerTime`
-
+`cd modules/MMM-OLPrayerTime`  
 `cd npm install`
 
 6. Install vendor modules:
@@ -70,6 +55,5 @@ Off-line Prayer Time module for MagicMirror
 
 7. Start the application:
 
-`cd ..`
-
+`cd ..`  
 `npm run start`
