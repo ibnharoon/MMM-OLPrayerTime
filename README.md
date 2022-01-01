@@ -58,3 +58,6 @@ Off-line Muslim Prayer Time module for MagicMirror
 >        animationSpeed: 2.5 * 1000,             // Speed of the update animation. (milliseconds)  
 >        language: config.language || "en",      // Language preference  
 >        pthreshold: 10                          // Flashing before prayer reminder threshold (in minutes)  
+
+### Screenshots
+![](/Screenshot%20from%202022-01-01%2007-09-35.png)
