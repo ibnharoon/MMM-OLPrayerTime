@@ -49,7 +49,6 @@ Off-line Muslim Prayer Time module for MagicMirror
 
 ### Module Options
 
-`
 >        latitude: false,                        // Latitude. Required parameter  
 >        longitude: false,                       // Longitude. Required parameter  
 >        timeFormat: config.timeFormat || 24,    // 12 or 24  
@@ -58,5 +57,4 @@ Off-line Muslim Prayer Time module for MagicMirror
 >        notDisplayed: ['sunrise', 'midnight'],  // Do not display these times  
 >        animationSpeed: 2.5 * 1000,             // Speed of the update animation. (milliseconds)  
 >        language: config.language || "en",      // Language preference  
->        pthreshold: 10                          // Flashing before prayer reminder threshold (in minutes)
-`
+>        pthreshold: 10                          // Flashing before prayer reminder threshold (in minutes)  
