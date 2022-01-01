@@ -1,5 +1,5 @@
 # MMM-OLPrayerTime
-Off-line Prayer Time module for MagicMirror
+Off-line Muslim Prayer Time module for MagicMirror
 
 ## How to install this module
 1. If you already have Magic Mirror installed, skip to step 5. Clone the Magic Mirror repository and check out the master branch:  
