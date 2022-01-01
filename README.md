@@ -2,7 +2,7 @@
 Off-line Prayer Time module for MagicMirror
 
 ## How to install this module
-1. If you already have Magic Mirror installed, skip to step 4. Clone the Magic Mirror repository and check out the master branch:  
+1. If you already have Magic Mirror installed, skip to step 5. Clone the Magic Mirror repository and check out the master branch:  
 `git clone https://github.com/MichMich/MagicMirror`
   
 2. Change to the Magic Mirror directory:  
@@ -11,14 +11,14 @@ Off-line Prayer Time module for MagicMirror
 3. Install the required modules:  
 `npm install`
 
-4. Install this module:  
+4. Make a copy of the config sample file:  
+`cp config/config.js.sample config/config.js`
+
+5. Clone this module in the modules directory:  
 `cd modules`  
 `git clone https://github.com/ibnharoon/MMM-OLPrayerTime.git`
 
-5. Make a copy of the config sample file:  
-`cp config/config.js.sample config/config.js`
-
-6. Add module entry to config.js (see below for module options) eg:  
+6. Add module entry to config/config.js (see below for module options) eg:  
 `modules: [  
 ...  
 ...  
@@ -40,7 +40,7 @@ Off-line Prayer Time module for MagicMirror
 `cd npm install`
 
 6. Install vendor specific modules:  
-`cd ../vendor`  
+`cd ../../vendor`  
 `npm install`
 
 7. Start the application:  
