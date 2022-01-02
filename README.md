@@ -25,7 +25,7 @@ Off-line Muslim Prayer Time module for MagicMirror
 > 		{  
 >			module: 'MMM-OLPrayerTime',  
 >			position: 'middle_center',  
->                        header: 'Prayer Times',  
+>			header: 'Prayer Times',  
 >			config: {  
 >				latitude: 37.3391931,  
 >				longitude: -121.9389783  
