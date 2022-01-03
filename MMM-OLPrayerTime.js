@@ -37,6 +37,7 @@ Module.register("MMM-OLPrayerTime", {
         this.tickermsg = "";
         this.delta = 0;
         this.wrapper = null;
+        this.durationEnabled = false;
 
         this.loaded = false;
         this.allPrayers = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha', 'midnight'];
@@ -205,6 +206,11 @@ Module.register("MMM-OLPrayerTime", {
                     }
                 }
 
+                // skip ticker message if duration is disabled
+                if ( ! this.durationEnabled ) {
+                    return;
+                }
+
                 this.delta = Math.floor((nptime - now)/60000);
                 Log.log("delta: " + this.delta);
                 if ( this.delta > 0 ) {
@@ -270,6 +276,16 @@ Module.register("MMM-OLPrayerTime", {
                 // update only the duration
                 this.updateDuration(false, false, cMin);
                 break;
+            case 'ALL_MODULES_STARTED':
+                // check if clock module is loaded and enable the ticker message
+                let loaded_modules = MM.getModules().exceptModule(this);
+                for (let module of loaded_modules) {
+				    if (module['name'] == 'clock') {
+				        this.durationEnabled = true;
+				        break;
+				    }
+				}
+				break;
         }
     }
 });
