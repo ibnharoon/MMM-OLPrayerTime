@@ -280,12 +280,12 @@ Module.register("MMM-OLPrayerTime", {
                 // check if clock module is loaded and enable the ticker message
                 let loaded_modules = MM.getModules().exceptModule(this);
                 for (let module of loaded_modules) {
-				    if (module['name'] == 'clock') {
-				        this.durationEnabled = true;
-				        break;
-				    }
-				}
-				break;
+                    if (module['name'] == 'clock') {
+                        this.durationEnabled = true;
+                        break;
+                    }
+                }
+                break;
         }
     }
 });
