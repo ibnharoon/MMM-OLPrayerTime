@@ -18,7 +18,7 @@ Off-line Muslim Prayer Time module for [MagicMirror<sup>2</sup>](https://github.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`cd modules`  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`git clone https://github.com/ibnharoon/MMM-OLPrayerTime.git`
 
-6. Add module entry to config/config.js (see [below](#module-options) for module options) eg:  
+6. Add module entry to config/config.js (see below for [module options](#module-options)) eg:  
 modules: [  
 ...  
 ...  
@@ -31,9 +31,9 @@ modules: [
 >				longitude: -121.9389783  
 >			}  
 >		}  
-...  
-...  
-]  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]  
 
 7. Install the required modules:  
 `cd modules/MMM-OLPrayerTime`  
