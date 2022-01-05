@@ -35,15 +35,15 @@ Off-line Muslim Prayer Time module for [MagicMirror<sup>2</sup>](https://github.
 ...  
 ]`  
 
-5. Install the required modules:  
+7. Install the required modules:  
 `cd modules/MMM-OLPrayerTime`  
 `cd npm install`
 
-6. Install vendor specific modules:  
+8. Install vendor specific modules (skip this step if you already have MagicMirror<sup>2</sup> installed):  
 `cd ../../vendor`  
 `npm install`
 
-7. Start the application:  
+9. Start the application:  
 `cd ..`  
 `npm run start`
 
