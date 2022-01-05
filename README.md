@@ -14,9 +14,9 @@ Off-line Muslim Prayer Time module for [MagicMirror<sup>2</sup>](https://github.
 4. Make a copy of the config sample file:  
 `cp config/config.js.sample config/config.js`
 
-<a name="step-5">5.</a> Clone this module in the modules directory:  
-`cd modules`  
-`git clone https://github.com/ibnharoon/MMM-OLPrayerTime.git`
+<a name="step-5">&nbsp;&nbsp;&nbsp;5.</a> Clone this module in the modules directory:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`cd modules`  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`git clone https://github.com/ibnharoon/MMM-OLPrayerTime.git`
 
 6. Add module entry to config/config.js (see [below](#module-options) for module options) eg:  
 modules: [  
