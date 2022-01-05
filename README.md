@@ -45,7 +45,7 @@ Off-line Muslim Prayer Time module for [MagicMirror<sup>2</sup>](https://github.
 
 9. Start the application:  
 `cd ..`  
-`npm run start`
+`npm start`
 
 ### Module Options
 
