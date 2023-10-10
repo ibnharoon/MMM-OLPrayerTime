@@ -45,47 +45,31 @@ module.exports = NodeHelper.create({
     enableTimers: function() {
         this.disableTimers();
 
+        // get the current time
         const nowv = new Moment().valueOf();
+
         // enable current prayer timer update
         for (var i = 0; i < this.ptimes.length; i++) {
             // enable current prayer timer except midnight
             const tk = this.ptimes[i][0];
-
-            if ( tk == "midnight" ) {
-                continue;
-            }
-
-            const topv = new Moment(this.ptimes[i][1]).valueOf();
+            const cptime = this.ptimes[i][1]
+            const topv = new Moment(cptime).valueOf();
             const delta = topv - nowv;
 
-            if ( delta > 0 ) {
-                Log.log("enabling timer for: " + tk + ", at: " + this.ptimes[i][1] + ", in: " + delta);
-                this.updateCurrentPrayerTimer[tk] = setTimeout(() => { this.updateCurrentPrayer() }, delta);
+            // update daily prayer timer at midnight
+            if ( tk == "midnight" ) {
+                if ( delta > 0 ) {
+                    Log.log("enabling prayer update timer at: " + cptime + ", delta: " + delta);
+                    this.updatePrayerTimer = setTimeout(() => { this.updatePrayerTimes() }, delta);
+                }
+            // update individual prayer timer at each prayer
+            } else {
+                if ( delta > 0 ) {
+                    Log.log("enabling timer for: " + tk + ", at: " + cptime + ", in: " + delta);
+                    this.updateCurrentPrayerTimer[tk] = setTimeout(() => { this.updateCurrentPrayer() }, delta);
+                }
             }
         }
-
-        // set timer to update prayer times every midnight
-
-        // midnight (12:00 am) today
-        const midnight = new Date().setHours(0, 0, 0, 0);
-        
-        // midnight (12:00am) today
-        const mdnow = new Moment(midnight);
-
-        // current midnight time
-        let mdval = new Moment(this.ptimes[this.ptimes.length-1][1]);
-
-        Log.log("midnight ptime: " + mdval.toDate() + ", midnight today: " + mdnow.toDate());
-        if ( mdnow.valueOf() > mdval.valueOf() ) {
-            // midnight next day
-            mdval = mdval.add(1, "days");
-        }
-        
-        // get delta
-        const ndelta = mdval.valueOf() - nowv;
-
-        Log.log("enabling prayer update timer at: " + mdval.toDate() + ", ndelta: " + ndelta);
-        this.updatePrayerTimer = setTimeout(() => { this.updatePrayerTimes() }, ndelta);
     },
 
     socketNotificationReceived: function(notification, payload) {
@@ -100,7 +84,7 @@ module.exports = NodeHelper.create({
     },
 
     getNextPrayer: function(pn, npr) {
-        Log.log("getNextPrayer: current prayer: " + pn + ", next prayer: " + npr);
+        Log.log("getNextPrayer(): current prayer: " + pn + ", next prayer: " + npr);
 
         this.currentPrayer['cprayer'] = pn;
         
@@ -146,10 +130,10 @@ module.exports = NodeHelper.create({
 
             this.getNextPrayer('midnight', 0);
         } else {
-            Log.log("loop through all prayers to find current prayer");
+            //Log.log("loop through all prayers to find current prayer");
             // start with last prayer time (midnight) descending order
             for (let i = this.ptimes.length - 1; i >= 0; i--) {
-                Log.log("Name: " + this.ptimes[i][0] + ", time: " + this.ptimes[i][1]);
+                //Log.log("Name: " + this.ptimes[i][0] + ", time: " + this.ptimes[i][1]);
                 
                 // get Name of prayer
                 pn = this.ptimes[i][0];
@@ -161,7 +145,7 @@ module.exports = NodeHelper.create({
                 const topv = new Moment(this.ptimes[i][1]).valueOf();
 
                 // if time of prayer is less than now, it becomes the current prayer
-                Log.log("update current prayer topv: " + topv + ", nowv: " + nowv + ", npr: " + npr);
+                //Log.log("update current prayer topv: " + topv + ", nowv: " + nowv + ", npr: " + npr);
                 if (topv < nowv) {
                     if (pn == "midnight") {
                         // midnight next day
@@ -173,14 +157,14 @@ module.exports = NodeHelper.create({
                         // prayers already calculated, and now is less than 12:00am : use yesterday's 
                         // midnight time
                         if (! this.mnnext && this.ytimes && nowv < mdmomnext.valueOf()) {
-                            Log.log("midnight time is less than 12:00am next day backup midnight time: " + this.ptimes[this.ptimes.length-1][1]);
+                            //Log.log("midnight time is less than 12:00am next day backup midnight time: " + this.ptimes[this.ptimes.length-1][1]);
                             if ( ! this.mdback ) {
                                 this.mdback = this.ptimes[this.ptimes.length-1][1];
                             }
 
                             this.ptimes[this.ptimes.length-1][1] = this.ytimes[this.ptimes.length-1][1];
                         } else {
-                            Log.log("midnight time is more than 12:00am");
+                            //Log.log("midnight time is more than 12:00am");
                             if ( this.mdback ) {
                                 this.ptimes[this.ptimes.length-1][1] = this.mdback;
                             }
@@ -243,23 +227,25 @@ module.exports = NodeHelper.create({
         }
 
         // if not initial and ptimes are already defined use midnight time
-        if ( ! this.initial && this.ptimes ) {
+        if ( ! this.ytimes && this.ptimes ) {
             const clone = (items) => items.map(item => Array.isArray(item) ? clone(item) : item);
             rdate = this.ptimes[this.ptimes.length-1][1];
             this.ytimes = clone(this.ptimes);
-            Log.log("saving yesterday's time: " + JSON.stringify(this.ytimes));
+            //Log.log("saving yesterday's time: " + JSON.stringify(this.ytimes));
         }
 
-        let momdate = new Moment(rdate);
-        const midnight = new Date().setHours(23, 59, 59, 999);
-        const mdnow = new Moment(midnight);
-
-        if ( ! this.initial && momdate.valueOf() > mdnow.valueOf()) {
-            momdate.add(1, "days");
-            rdate = momdate.toDate();
-            Log.log("get prayer times for next day: " + rdate);
+        if ( this.ptimes ) {
+            // if midnight prayer time is the same day as fajr
+            // get prayer times for the next day
+            let mnday = Moment(rdate);
+            const fjday = Moment(this.ptimes[0][1]);
+            //Log.log("updatePrayerTimes(): rdate: " + rdate + ", fj date: " + this.ptimes[0][1]);
+            if (mnday.dayOfYear() == fjday.dayOfYear()) {
+                mnday.add(1, "days");
+                rdate = mnday.toDate();
+            }
         }
-        
+
         Log.log("updating prayer times rdate: " + rdate);
 
         // get the prayer timings
@@ -274,6 +260,12 @@ module.exports = NodeHelper.create({
 
         // convert prayer times string to Date object
         this.ptimes = this.convertTimeStringToDate(pt, rdate);
+
+//        if ( ! this.ytimes ) {
+//            const clone = (items) => items.map(item => Array.isArray(item) ? clone(item) : item);
+//            this.ytimes = clone(this.ptimes);
+//            Log.log("cloning today's time: " + JSON.stringify(this.ytimes));
+//        }
 
         // convert prayer time array to associative array
         var ptobj = Object.fromEntries(this.ptimes);

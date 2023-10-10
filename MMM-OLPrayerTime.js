@@ -1,3 +1,4 @@
+
 Module.register("MMM-OLPrayerTime", {
     // Default module config.
     defaults: {
@@ -13,7 +14,7 @@ Module.register("MMM-OLPrayerTime", {
     },
 
     getScripts: function() {
-        return ['moment.js', this.file('node_modules/moment-hijri/moment-hijri.js')]
+        return [this.file('node_modules/moment-hijri/moment-hijri.js')]
     },
 
     getStyles: function() {
@@ -37,7 +38,6 @@ Module.register("MMM-OLPrayerTime", {
         this.tickermsg = "";
         this.delta = 0;
         this.wrapper = null;
-        this.durationEnabled = false;
 
         this.loaded = false;
         this.allPrayers = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha', 'midnight'];
@@ -154,7 +154,7 @@ Module.register("MMM-OLPrayerTime", {
         this.updateptimes = uptime;
         this.updatecprayer = ucprayer;
 
-        Log.log("next prayer: " + JSON.stringify(this.currentPrayer['nprayer']));
+        Log.log("updateDuration(): next prayer: " + JSON.stringify(this.currentPrayer['nprayer']));
         if (this.currentPrayer['nprayer'] != null) {
             var dnow = new Date();
 
@@ -163,7 +163,7 @@ Module.register("MMM-OLPrayerTime", {
 
             // sync with main clock
             if (cmin != -1) {
-                Log.log("sync minute before: " + now + ", cmin: " + cmin);
+                //Log.log("sync minute before: " + now + ", cmin: " + cmin);
                 let h = Math.floor(now/3600000);
                 let m = (now/60000) % 60;
 
@@ -173,12 +173,12 @@ Module.register("MMM-OLPrayerTime", {
                 }
 
                 now = (h * 3600000) + (cmin * 60000);
-                Log.log("sync minute after: " + now + ", h: " + h + ", m: " + m);
+                //Log.log("sync minute after: " + now + ", h: " + h + ", m: " + m);
             }
 
             // get the next prayer time
             let nptime = new Date(this.currentPrayer['nprayer']['time']).valueOf();
-            Log.log("Next prayer time: " + this.currentPrayer['nprayer']['time']);
+            //Log.log("Next prayer time: " + this.currentPrayer['nprayer']['time']);
 
             this.delta = 0;
 
@@ -206,26 +206,21 @@ Module.register("MMM-OLPrayerTime", {
                     }
                 }
 
-                // skip ticker message if duration is disabled
-                if ( ! this.durationEnabled ) {
-                    return;
-                }
-
                 this.delta = Math.floor((nptime - now)/60000);
-                Log.log("delta: " + this.delta);
+                //Log.log("delta: " + this.delta);
                 if ( this.delta > 0 ) {
-                    Log.log("delta is " + this.delta + ", update ticker");
+                    //Log.log("delta is " + this.delta + ", update ticker");
                     dstr = convertMinsToHrsMins(this.delta);
                     if (dstr != "") {
                         npname = this.translate(this.currentPrayer['nprayer']['name']);
                         var nmsg = `${npname}` + " " + `${dstr}`;
                         this.tickermsg = nmsg;
                     } else {
-                        Log.log("dstring is empty");
+                        //Log.log("dstring is empty");
                         this.tickermsg = "";
                     }
                 } else {
-                    Log.log("delta is less than 0, reset ticker");
+                    //Log.log("delta is less than 0, reset ticker");
                     this.delta = 0;
                     this.tickermsg = "";
                 }
@@ -275,16 +270,6 @@ Module.register("MMM-OLPrayerTime", {
 
                 // update only the duration
                 this.updateDuration(false, false, cMin);
-                break;
-            case 'ALL_MODULES_STARTED':
-                // check if clock module is loaded and enable the ticker message
-                let loaded_modules = MM.getModules().exceptModule(this);
-                for (let module of loaded_modules) {
-                    if (module['name'] == 'clock') {
-                        this.durationEnabled = true;
-                        break;
-                    }
-                }
                 break;
         }
     }
