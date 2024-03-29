@@ -9,8 +9,8 @@
   "author": "",
   "license": "GPL",
   "dependencies": {
-    "moment": "^2.29.1",
-    "moment-hijri": "^2.1.2",
+    "@calidy/dayjs-calendarsystems": "^1.11.3",
+    "dayjs": "^1.11.10",
     "prayer-times": "^0.1.0"
   }
 }
