@@ -10,13 +10,13 @@
   "license": "GPL",
   "dependencies": {
     "@calidy/dayjs-calendarsystems": "^1.11.3",
-    "chai": "^5.1.0",
     "dayjs": "^1.11.10",
     "node-fetch": "^3.3.2",
     "prayer-times": "^0.1.0"
   },
   "devDependencies": {
     "mocha": "^10.4.0",
+    "chai": "^5.1.0",
     "mochawesome": "^7.1.3",
     "selenium-webdriver": "^4.19.0"
   }
