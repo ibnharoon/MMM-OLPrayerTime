@@ -11,7 +11,7 @@ Module.register("clock", {
 		displaySeconds: true,
 		showPeriod: true,
 		showPeriodUpper: false,
-		clockBold: false,
+		clockBold: true,
 		showDate: true,
 		showTime: true,
 		showWeek: false,
