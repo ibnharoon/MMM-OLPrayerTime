@@ -135,7 +135,7 @@ Module.register("clock", {
 		}
 
 		if (this.config.clockBold) {
-			timeString = now.format(`${hourSymbol}[<span class="bold">]mm[</span>]`);
+			timeString = now.format(`${hourSymbol}[<span id="currentTime" class="bold">]mm[</span>]`);
 		} else {
 			timeString = now.format(`${hourSymbol}:mm`);
 		}
