@@ -20,7 +20,7 @@ let config = {
 	language: "en",
 	locale: "en-US",
 	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
-	timeFormat: 24,
+	timeFormat: 12,
 	units: "metric",
 
 	modules: [
