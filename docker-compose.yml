@@ -1,0 +1,28 @@
+services:
+  magicmirror:
+    container_name: mm-magicmirror
+    image: mm-magicmirror
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    command: 
+      - npm
+      - run
+      - server
+    networks:
+      - mm-network
+
+  selenium:
+    container_name: mm-selenium
+    image: mm-selenium
+    ports:
+      - "4444:4444"
+    networks:
+      - mm-network
+
+networks:
+  mm-network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          ip_range: 172.20.5.0/24

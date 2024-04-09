@@ -1,0 +1,45 @@
+FROM karsten13/magicmirror:latest as builder
+FROM node:20
+
+USER root
+
+WORKDIR /opt/magic_mirror
+
+COPY --from=builder --chown=node:node /opt/magic_mirror /opt/magic_mirror
+COPY entrypoint-mm.sh /sbin/docker-entrypoint.sh
+RUN chmod +x /sbin/docker-entrypoint.sh
+
+RUN set -e; apt-get update; DEBIAN_FRONTEND=noninteractive apt-get -qy --no-install-recommends install git nano sudo openssl ca-certificates wget tini gnupg libfaketime faketime locales locales-all
+RUN echo "node ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+RUN locale-gen en_US.UTF-8
+
+WORKDIR /opt/magic_mirror/modules
+RUN git clone https://github.com/ibnharoon/MMM-OLPrayerTime.git
+
+WORKDIR /opt/magic_mirror/modules/MMM-OLPrayerTime
+COPY package.json /opt/magic_mirror/modules/MMM-OLPrayerTime
+COPY MMM-OLPrayerTime.css /opt/magic_mirror/modules/MMM-OLPrayerTime
+COPY MMM-OLPrayerTime.js /opt/magic_mirror/modules/MMM-OLPrayerTime
+COPY node_helper.js /opt/magic_mirror/modules/MMM-OLPrayerTime
+COPY prayers.json /opt/magic_mirror/modules/MMM-OLPrayerTime
+RUN npm install
+
+WORKDIR /opt/magic_mirror
+COPY test/modules/default /opt/magic_mirror/modules/default
+COPY test/config /opt/magic_mirror/config
+COPY test/css /opt/magic_mirror/css
+
+USER node
+
+ARG FAKETIME
+ENV ELECTRON_DISABLE_SANDBOX=1 \
+    DBUS_SESSION_BUS_ADDRESS="unix:path=/var/run/dbus/system_bus_socket" \
+    LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1" \
+    FAKETIME="${FAKETIME}" \
+    TZ="America/Los_Angeles" \
+    LANG=en_US.UTF-8
+
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/bin/tini", "--", "/sbin/docker-entrypoint.sh"]
