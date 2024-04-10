@@ -61,3 +61,5 @@ modules: [
 
 ### Screenshots
 ![](/Screenshot%20from%202022-01-01%2007-09-35.png)
+
+[![Prayer Time Test](https://github.com/ibnharoon/MMM-OLPrayerTime/actions/workflows/test.yml/badge.svg)](https://github.com/ibnharoon/MMM-OLPrayerTime/actions/workflows/test.yml)
