@@ -25,7 +25,7 @@ jobs:
     - run: npm test
 
     - name: Test Report
-      uses: dorny/test-reporter@v1
+      uses: phoenix-actions/test-reporting@v14
       if: success() || failure()    # run this step even if previous step failed
       with:
         name: Mochawesome Tests                    # Name of the check run which will be created
