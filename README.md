@@ -52,7 +52,7 @@ modules: [
 |-----------------|------------|---------------------------|---------------------------------------------------------------|
 | latitude        | double    | false                     | Latitude. Required parameter                                  |
 | longitude       | double    | false                     | Longitude. Required parameter                                 |
-| timeFormat      | number     | config.timeFormat \|\| 24 | 12 or 24                                                      |
+| timeFormat      | number     | 12 | 12 or 24                                                      |
 | method          | string     | "ISNA"                    | see document for prayer-times npm                             |
 | asrfactor       | string     | "Standard"                | see document for prayer-times npm                             |
 | notDisplayed    | array      | ['sunrise', 'midnight']   | Do not display these times                                    |
