@@ -50,8 +50,8 @@ modules: [
 ### Module Options
 | Option          | Type | Default           | Comments                                                      |
 |-----------------|------------|---------------------------|---------------------------------------------------------------|
-| latitude        | double    | false                     | Latitude. Required parameter                                  |
-| longitude       | double    | false                     | Longitude. Required parameter                                 |
+| latitude        | none   | false                     | Latitude. Required parameter                                  |
+| longitude       | none    | false                     | Longitude. Required parameter                                 |
 | timeFormat      | number     | 12 | 12 or 24                                                      |
 | method          | string     | "ISNA"                    | see document for prayer-times npm                             |
 | asrfactor       | string     | "Standard"                | see document for prayer-times npm                             |
