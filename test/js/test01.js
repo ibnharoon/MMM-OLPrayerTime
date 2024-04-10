@@ -122,7 +122,7 @@ Object.entries(tests).forEach((test) => {
       await execAsync(`docker build --build-arg "FAKETIME=${fakeTime}" -t mm-selenium . --file Dockerfile-selenium`);
       await execAsync('docker compose up -d');  // Start the Docker environment
 
-      await new Promise(resolve => setTimeout(resolve, 20000)); // Wait for the containers to be fully up and running
+      await new Promise(resolve => setTimeout(resolve, 25000)); // Wait for the containers to be fully up and running
 
       // Initialize Selenium WebDriver for chrome browser automation
       driver = await new Builder()
