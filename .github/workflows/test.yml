@@ -30,4 +30,4 @@ jobs:
       with:
         name: Mochawesome Tests                    # Name of the check run which will be created
         path: mochawesome-report/mochawesome.json  # Path to test results
-        reporter: mochawesome                      # Format of test results
+        reporter: mochawesome-json                      # Format of test results
