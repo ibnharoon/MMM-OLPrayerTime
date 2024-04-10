@@ -4,7 +4,7 @@ Module.register("MMM-OLPrayerTime", {
   defaults: {
     latitude: false,                        // Latitude. Required parameter, please define in config.js
     longitude: false,                       // Longitude. Required parameter, please define in config.js
-    timeFormat: config.timeFormat || 24,    // 12 or 24
+    timeFormat: config.timeFormat || 12,    // 12 or 24
     method: "ISNA",                         // see document for prayer-times npm 
     asrfactor: "Standard",                  // see document for prayert-times npm
     notDisplayed: ['sunrise', 'midnight'],
