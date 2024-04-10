@@ -48,16 +48,17 @@ modules: [
 `npm start`
 
 ### Module Options
-
->        latitude: false,                        // Latitude. Required parameter  
->        longitude: false,                       // Longitude. Required parameter  
->        timeFormat: config.timeFormat || 24,    // 12 or 24  
->        method: "ISNA",                         // see document for prayer-times npm  
->        asrfactor: "Standard",                  // see document for prayer-times npm  
->        notDisplayed: ['sunrise', 'midnight'],  // Do not display these times  
->        animationSpeed: 2.5 * 1000,             // Speed of the update animation. (milliseconds)  
->        language: config.language || "en",      // Language preference  
->        pthreshold: 10                          // Flashing before prayer reminder threshold (in minutes)  
+| Option          | Type | Default           | Comments                                                      |
+|-----------------|------------|---------------------------|---------------------------------------------------------------|
+| latitude        | double    | false                     | Latitude. Required parameter                                  |
+| longitude       | double    | false                     | Longitude. Required parameter                                 |
+| timeFormat      | number     | config.timeFormat \|\| 24 | 12 or 24                                                      |
+| method          | string     | "ISNA"                    | see document for prayer-times npm                             |
+| asrfactor       | string     | "Standard"                | see document for prayer-times npm                             |
+| notDisplayed    | array      | ['sunrise', 'midnight']   | Do not display these times                                    |
+| animationSpeed  | double     | 2.5 * 1000                | Speed of the update animation. (milliseconds)                 |
+| language        | string     | config.language \|\| "en" | Language preference                                           |
+| pthreshold      | number     | 10                        | Flashing before prayer reminder threshold (in minutes)        |
 
 ### Screenshots
 ![](/Screenshot%20from%202022-01-01%2007-09-35.png)
