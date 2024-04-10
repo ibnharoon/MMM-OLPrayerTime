@@ -15,9 +15,9 @@ jobs:
         node-version: [20.x]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
@@ -25,9 +25,9 @@ jobs:
     - run: npm test
 
     - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()    # run this step even if previous step failed
-        with:
-          name: Mochawesome Tests     # Name of the check run which will be created
-          path: mochawesome/*         # Path to test results
-          reporter: mochawesome       # Format of test results
+      uses: dorny/test-reporter@v1
+      if: success() || failure()    # run this step even if previous step failed
+      with:
+        name: Mochawesome Tests                    # Name of the check run which will be created
+        path: mochawesome-report/mochawesome.json  # Path to test results
+        reporter: mochawesome                      # Format of test results
