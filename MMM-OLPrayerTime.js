@@ -7,8 +7,7 @@ Module.register("MMM-OLPrayerTime", {
     timeFormat: config.timeFormat || 12,    // 12 or 24
     method: "ISNA",                         // see document for prayer-times npm 
     asrfactor: "Standard",                  // see document for prayert-times npm
-    notDisplayed: ['sunrise', 'midnight'],
-    animationSpeed: 2.5 * 1000,             // Speed of the update animation. (milliseconds)
+    notDisplayed: ['sunrise', 'midnight'],             // Speed of the update animation. (milliseconds)
     language: config.language || "en",
     pthreshold: 10
   },
