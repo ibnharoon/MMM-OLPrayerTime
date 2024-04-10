@@ -53,12 +53,12 @@ modules: [
 | latitude        | double   | none                     | Latitude. Required parameter                                  |
 | longitude       | double    | none                     | Longitude. Required parameter                                 |
 | timeFormat      | number     | 12 | 12 or 24                                                      |
-| method          | string     | "ISNA"                    | see document for prayer-times npm                             |
-| asrfactor       | string     | "Standard"                | see document for prayer-times npm                             |
+| method          | string     | ISNA                    | see document for prayer-times npm                             |
+| asrfactor       | string     | Standard                | see document for prayer-times npm                             |
 | notDisplayed    | array      | ['sunrise', 'midnight']   | Do not display these times                                    |
 | animationSpeed  | double     | 2.5 * 1000                | Speed of the update animation. (milliseconds)                 |
-| language        | string     | "en" | Language preference                                           |
-| pthreshold      | number     | 10                        | Flashing before prayer reminder threshold (in minutes)        |
+| language        | string     | en | Language preference                                           |
+| pthreshold      | number     | 10                        | Flashing prayer reminder threshold (in minutes)        |
 
 ### Screenshots
 ![](/Screenshot%20from%202022-01-01%2007-09-35.png)
