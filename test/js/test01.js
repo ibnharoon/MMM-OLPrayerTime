@@ -99,6 +99,29 @@ const tests = {
   }
 };
 
+async function initializeSeleniumDriver(url, retryCount = 6, interval = 5000) {
+  let attempt = 0;
+  while (attempt < retryCount) {
+    try {
+      // Try to create a driver instance to check if the Selenium server is up
+      const driver = await new Builder()
+        .forBrowser('chrome')
+        .usingServer(url)
+        .build();
+
+      return driver; // Server is up
+    } catch (error) {
+      console.log(`Selenium server not up yet, retrying... (${++attempt}/${retryCount})`);
+      await new Promise(resolve => setTimeout(resolve, interval));
+    }
+  }
+
+  // driver could not be created
+  return null;
+}
+
+
+
 // Iterate over each test scenario to define Mocha tests
 Object.entries(tests).forEach((test) => {
   const [currentPrayer, estr] = test;
@@ -122,13 +145,10 @@ Object.entries(tests).forEach((test) => {
       await execAsync(`docker build --build-arg "FAKETIME=${fakeTime}" -t mm-selenium . --file Dockerfile-selenium`);
       await execAsync('docker compose up -d');  // Start the Docker environment
 
-      await new Promise(resolve => setTimeout(resolve, 25000)); // Wait for the containers to be fully up and running
-
-      // Initialize Selenium WebDriver for chrome browser automation
-      driver = await new Builder()
-        .forBrowser('chrome')
-        .usingServer('http://172.20.5.2:4444/wd/hub')
-        .build();
+      const seleniumServerUrl = 'http://172.20.5.2:4444/wd/hub';
+      driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
+      // Assert that driver is initialized successfully
+      expect(driver, 'Selenium server did not start within the expected time.').to.not.be.null;
     });
 
     after(async () => {
