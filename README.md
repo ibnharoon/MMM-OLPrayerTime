@@ -56,7 +56,6 @@ modules: [
 | method          | string     | ISNA                    | see document for prayer-times npm                             |
 | asrfactor       | string     | Standard                | see document for prayer-times npm                             |
 | notDisplayed    | array      | ['sunrise', 'midnight']   | Do not display these times                                    |
-| animationSpeed  | double     | 2.5 * 1000                | Speed of the update animation. (milliseconds)                 |
 | language        | string     | en | Language preference                                           |
 | pthreshold      | number     | 10                        | Flashing prayer reminder threshold (in minutes)        |
 
