@@ -99,7 +99,7 @@ const tests = {
   }
 };
 
-async function initializeSeleniumDriver(url, retryCount = 6, interval = 5000) {
+async function initializeSeleniumDriver(url, retryCount = 9, interval = 5000) {
   let attempt = 0;
   while (attempt < retryCount) {
     try {
@@ -119,8 +119,6 @@ async function initializeSeleniumDriver(url, retryCount = 6, interval = 5000) {
   // driver could not be created
   return null;
 }
-
-
 
 // Iterate over each test scenario to define Mocha tests
 Object.entries(tests).forEach((test) => {
