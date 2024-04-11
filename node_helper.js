@@ -1,8 +1,10 @@
 /* 
+ *
  * Node Helper for MMM-OLPrayerTime Magic Mirror module
  *
  * By Bustamam Harun/bustamam@gmail.com
  * MIT Licensed.
+ * 
  */
 
 var NodeHelper = require("node_helper");
@@ -12,6 +14,8 @@ var AdvancedFormat = require('dayjs/plugin/advancedFormat');
 var localizedFormat = require('dayjs/plugin/localizedFormat');
 var dayOfYear = require('dayjs/plugin/dayOfYear');
 const prayertimes = require(__dirname + '/prayers.json');
+var calendarSystems = require('@calidy/dayjs-calendarsystems');
+var HijriCalendarSystem = require('@calidy/dayjs-calendarsystems/calendarSystems/HijriCalendarSystem');
 
 // Prayers enum
 const Prayers = {
@@ -34,8 +38,32 @@ const PrayerIndex = {
 Dayjs.extend(localizedFormat);
 Dayjs.extend(dayOfYear);
 Dayjs.extend(AdvancedFormat);
+Dayjs.extend(calendarSystems);
+Dayjs.registerCalendarSystem('islamic', new HijriCalendarSystem());
+
+/*
+ * 
+ * Name: getFormattedHijriDate
+ * 
+ * Purpose: Get the localized hijri date string
+ * 
+ * Parameters:
+ *   cdate  - Date object for the requested date
+ *   locale - requested locale
+ * 
+ * Returns: localized hijri date string
+ * 
+ */
+function getFormattedHijriDate(cdate, locale) {
+  require('dayjs/locale/' + locale);
+  
+  var hdate = new Dayjs(cdate).toCalendarSystem('islamic');
+
+  return hdate.locale(locale).format('D MMM YYYY');
+}
 
 module.exports = NodeHelper.create({
+  // Start function implementation
   start: function () {
     this.config = false;                                        // configuration parameters
     this.ptimes = null;                                         // today's prayer time
@@ -46,9 +74,22 @@ module.exports = NodeHelper.create({
     this.minutes = 0;                                           // system clock minutes
     this.dateString = '';                                       // hijri date string
     this.doy = 1;                                               // day of year 1..366
-    this.nextDay = ['maghrib', 'isha'];
+    this.nextDay = ['maghrib', 'isha'];                         // these prayers are considered as the next day
+    this.mtoday = true;                                         // Midnight is the same day
   },
 
+  /*
+   *
+   * Name: updateDuration
+   * 
+   * Purpose: update the delta time in minutes till the next prayer.
+   * 
+   * Parameters:
+   *  initial - this function was called during initialization
+   * 
+   * Returns: None
+   * 
+   */
   updateDuration: function (initial) {
     Log.log("updateDuration(): next prayer: " + this.currentPrayer['nprayer']['time'] + ', current time: ' + new Date());
     if (this.currentPrayer['nprayer'] != null) {
@@ -74,6 +115,20 @@ module.exports = NodeHelper.create({
     }
   },
 
+  /*
+   *
+   * Name: socketNotificationReceived
+   * 
+   * Purpose: 
+   *  Implements the socketNotificationReceived to process config and update duration request from frontend
+   * 
+   * Parameters:
+   *  notification  - Notification type (CONFIG, UPDATEDURATION)
+   *  payload       - payload associated with notification request
+   * 
+   * Returns: None
+   * 
+   */
   socketNotificationReceived: function (notification, payload) {
     Log.log('socket notification received: ' + ', notification: ' + notification + ', payload: ' + JSON.stringify(payload));
     Log.log('current prayer: ' + JSON.stringify(this.currentPrayer));
@@ -87,7 +142,9 @@ module.exports = NodeHelper.create({
       case 'UPDATEDURATION':
         this.minutes = payload['minutes']
         if (this.ptimes != null && this.currentPrayer['nprayer'] != null) {
-          if (this.currentPrayer['cprayer'] != null && this.currentPrayer['cprayer'][PrayerIndex.Name] === 'isha') {
+          // update prayer times on midnight, otherwise just update the current prayer
+          if (this.currentPrayer['cprayer'] != null && 
+          this.currentPrayer['cprayer'][PrayerIndex.Name] === 'isha') {
             this.updatePrayerTimes(false);
           } else {
             this.updateCurrentPrayer(false, false);
@@ -97,23 +154,73 @@ module.exports = NodeHelper.create({
     }
   },
 
+  /*
+   *
+   * Name: getNextPrayer
+   * 
+   * Purpose: Get the next prayer
+   * 
+   * Parameters:
+   *  cdate   - current date
+   *  pn      - current prayer index
+   *  npr     - next prayer index
+   *  initial - called during initialization
+   * 
+   * Returns: None
+   * 
+   */
   getNextPrayer: function (cdate, pn, npr, initial) {
     Log.log("getNextPrayer(): current prayer: " + this.ptimes[pn][PrayerIndex.Name] + ", next prayer: " + this.ptimes[npr][PrayerIndex.Name]);
-
+    // date object for midnight hour on the next day
+    const mtime = new Dayjs(new Date(this.ptimes[pn][PrayerIndex.Value])).add(1, 'day').toDate().setHours(0, 0, 0, 0);
     this.currentPrayer['cprayer'] = this.ptimes[pn];
-    this.currentPrayer['nprayer'] = { 'time': this.ptimes[npr][PrayerIndex.Value], 'name': this.ptimes[npr][PrayerIndex.Name], 'index': npr };
+    this.currentPrayer['nprayer'] = 
+      {
+        'time': this.ptimes[npr][PrayerIndex.Value], 
+        'name': this.ptimes[npr][PrayerIndex.Name], 
+        'index': npr 
+      };
+  
     this.updateDuration(initial);
 
     Log.log("current prayer: " + JSON.stringify(this.currentPrayer['cprayer']) + ", next prayer: " + this.ptimes[npr][PrayerIndex.Name] + " : " + this.ptimes[npr][PrayerIndex.Value]);
-    if (this.nextDay.includes(this.ptimes[pn][PrayerIndex.Name])) {
-      this.dateString = prayertimes['schedule'][((this.doy - 1) % 366) + 1]['hijri'];
+    var dch = cdate;
+    Log.log('cdate: ' + cdate.toDate() + ', mtime: ' + mtime);
+    // if prayer is on the next day or midnight time is greater than tomorrow's midnight hour
+    if ((this.nextDay.includes(this.ptimes[pn][PrayerIndex.Name]) && ( initial && (cdate.toDate() < mtime )) ) || 
+    ( this.ptimes[pn][PrayerIndex.Name] === 'midnight' && this.mtoday )) {
+      Log.log('prayer is on next day, adding 1 day for hijri date: ' + this.mtoday);
+      dch = cdate.add(1, 'day');
     }
 
-    this.sendSocketNotification('UPDATECURRENTPRAYER', {'cprayer': this.currentPrayer['cprayer'][PrayerIndex.Name], 'nprayer': this.currentPrayer['nprayer']['name'], duration: this.delta, 'dateString': this.dateString});
+    this.dateString = getFormattedHijriDate(dch.toDate(), this.config.language);
+
+    this.sendSocketNotification('UPDATECURRENTPRAYER', 
+      {
+        'cprayer': this.currentPrayer['cprayer'][PrayerIndex.Name], 
+        'nprayer': this.currentPrayer['nprayer']['name'], 
+        duration: this.delta, 
+        'dateString': this.dateString
+      });
   },
 
+  /*
+   *
+   * Name: findNextPrayer
+   * 
+   * Purpose: Find the next prayer after the current prayer ends.
+   * 
+   * Parameters:
+   *  nowv    - The current date and time
+   *  pt      - prayer time object
+   *  reverse - search in reverse order
+   *  initial - called during initialization
+   * 
+   * Returns: The current and the next prayer index
+   * 
+   */
   findNextPrayer: function(nowv, pt, reverse, initial) {
-    Log.log('findNextPrayer(): now: ' + nowv.toDate() + ', pt: ' + JSON.stringify(pt) + ', reverse: ' + reverse);
+    Log.log('findNextPrayer(): now: ' + nowv + ', pt: ' + JSON.stringify(pt) + ', reverse: ' + reverse);
     var thisPrayer = Prayers.Fajr;
     var nextPrayer = Prayers.Sunrise;
     var startPrayer = Prayers.Fajr;
@@ -150,6 +257,19 @@ module.exports = NodeHelper.create({
     return [thisPrayer, nextPrayer];
   },
 
+  /*
+   *
+   * Name: updateCurrentPrayer
+   * 
+   * Purpose: Update the current prayer on frontend
+   * 
+   * Parameters:
+   *  initial - called during initialization
+   *  udelta  - update the current delta
+   *  
+   * Returns: None
+   * 
+   */
   updateCurrentPrayer: function (initial, udelta) {
     Log.log('updating current prayer: init:' + initial);
     // get time now
@@ -180,9 +300,22 @@ module.exports = NodeHelper.create({
       nextPrayer = (this.currentPrayer['nprayer']['index'] + 1) % Prayers.Midnight;
     }
 
-    this.getNextPrayer(nowv.toDate(), thisPrayer, nextPrayer, initial);
+    this.getNextPrayer(nowv, thisPrayer, nextPrayer, initial);
   },
 
+  /*
+   *
+   * Name: convertTimeStringToDate
+   * 
+   * Purpose: Convert the time string to date object
+   * 
+   * Parameters:
+   *  tstrarr - the string prayer time array
+   *  cdate   - the current date
+   * 
+   * Returns: The array of date objects representing the prayer times
+   * 
+   */
   convertTimeStringToDate: function (tstrarr, cdate) {
     parr = [];
         
@@ -216,6 +349,18 @@ module.exports = NodeHelper.create({
     return parr;
   },
 
+  /*
+   *
+   * Name: convertDateToLocalizedString
+   * 
+   * Purpose: Convert the array of date objects to localized string array
+   * 
+   * Parameters: None
+   * 
+   * Returns: Array of localized string representing the prayer times
+   * 
+   */
+
   convertDateToLocalizedString: function() {
     require('dayjs/locale/' + this.config.language);
     var dayjs = new Dayjs();
@@ -233,8 +378,22 @@ module.exports = NodeHelper.create({
     return pstrarr;
   },
 
+  /*
+   *
+   * Name: getTodayPrayerTimes
+   * 
+   * Purpose: Get yesterday's, today's, and tomorrow's prayer times
+   * 
+   * Parameters:
+   *  rdate - current date
+   * 
+   * Returns: None
+   * 
+   */
   getTodayPrayerTimes: function(rdate) {
     var today = new Dayjs(rdate);
+    const mtime = new Date(rdate.setHours(0, 0, 0, 0));
+    
     var ydate = today.subtract(1, 'day').toDate();
     var tdate = today.add(1, 'day').toDate();
     var doy = today.dayOfYear();
@@ -242,15 +401,50 @@ module.exports = NodeHelper.create({
       if (prayertimes['schedule'][day]['day'] == doy) {
         this.doy = doy;
         Log.log('Found doy: ' + JSON.stringify(prayertimes['schedule'][day]['day']));
-        this.dateString = prayertimes['schedule'][day]['hijri'];
-        this.ytimes = this.convertTimeStringToDate(prayertimes['schedule'][(day == 0) ? (prayertimes['schedule'].length - 1) : (day - 1)]['times'], ydate);
+        // generate hijri date fron current date
+        this.dateString = getFormattedHijriDate(rdate, this.config.language);
+
+        // get prayer times for yesterday
+        this.ytimes = this.convertTimeStringToDate(
+          prayertimes['schedule'][(day == 0) ? 
+            (prayertimes['schedule'].length - 1) : 
+            (day - 1)]['times'], 
+          ydate
+        );
+
+        // get prayer times for today
         this.ptimes = this.convertTimeStringToDate(prayertimes['schedule'][day]['times'], rdate);
-        this.ttimes = this.convertTimeStringToDate(prayertimes['schedule'][(day == prayertimes['schedule'].length - 1) ? 0 : (day + 1)]['times'], tdate);
+
+        // check if midnight time is the next day
+        Log.log('mtime: ' + mtime + ', midnight time: ' + this.ptimes[Prayers.Midnight][PrayerIndex.Value]);
+        if (this.ptimes[Prayers.Midnight][PrayerIndex.Value] > mtime) {
+          this.mtoday = false;
+        }
+
+        // get prayer times for tomorror
+        this.ttimes = this.convertTimeStringToDate(
+          prayertimes['schedule'][(day == prayertimes['schedule'].length - 1) ? 
+            0 : 
+            (day + 1)]['times'], 
+          tdate
+        );
         break;
       }
     }
   },
 
+  /*
+   *
+   * Name: updatePrayerTimes
+   * 
+   * Purpose: Update the prayer times for today and send it to frontend
+   * 
+   * Parameters:
+   *  initial - called during initialization
+   * 
+   * Returns: None
+   * 
+   */
   updatePrayerTimes: function (initial) {
     Log.log("updatePrayerTimes() initial: " + initial);
 
