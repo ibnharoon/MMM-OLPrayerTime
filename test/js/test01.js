@@ -121,7 +121,7 @@ Object.entries(tests).forEach((test) => {
   describe('01 Test scenario with time set to 2 minutes before prayers', function () {
     this.timeout(3600000);
 
-    let driver; // Declare Selenium WebDriver
+    let driver = null; // Declare Selenium WebDriver
 
     before(async () => {
       // Setup actions before each test suite
@@ -135,7 +135,7 @@ Object.entries(tests).forEach((test) => {
       await execAsync('docker compose up -d');  // Start the Docker environment
 
       const seleniumServerUrl = 'http://172.20.5.2:4444/wd/hub';
-      driver = await utils.initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
+      driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
       // Assert that driver is initialized successfully
       expect(driver, 'Selenium server did not start within the expected time.').to.not.be.null;
     });
