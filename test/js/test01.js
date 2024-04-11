@@ -135,7 +135,7 @@ Object.entries(tests).forEach((test) => {
       await execAsync('docker compose up -d');  // Start the Docker environment
 
       const seleniumServerUrl = 'http://172.20.5.2:4444/wd/hub';
-      driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
+      driver = await utils.initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
       // Assert that driver is initialized successfully
       expect(driver, 'Selenium server did not start within the expected time.').to.not.be.null;
     });
