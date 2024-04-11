@@ -26,6 +26,16 @@ let expect;
  * Each test simulates the system time to check the application's behavior at specific prayer
  * intervals, ensuring the application's reliability and accuracy throughout the day.
  * 
+ * Strategy:
+ * 2 docker container will be created for the prayer time application and selenium standalone instance.
+ * The two docker instances will be started with system time set to 2 minutes before the prayer starts.
+ * If the 2 instances are not up within a specified time, the tests will be skipped, otherwise for each prayer
+ * it will test for existence of the time duration element with the duration string of 2m and the blinking
+ * attribute is on. It will then wait until the next minute and check if the duration changes to 1m. It will 
+ * then wait for the next minute where the current prayer changes to the next prayer. In some cases where the 
+ * are not actual prayer times (sunrise, midnight) the next prayer check will be skipped. The hijri date 
+ * changed when the maghrib prayer starts.
+ *
  * Steps:
  * - before: Sets up the testing environment by dynamically importing the Chai library for assertions,
  *   building Docker images with a specified 'fakeTime' to simulate the system time at different prayer times,
@@ -34,6 +44,7 @@ let expect;
  * - after: Tears down the testing environment by quitting the Selenium WebDriver, shutting down the Docker
  *   environment, and removing the Docker images. This cleanup ensures that each test run starts with a fresh
  *   environment and prevents resource leaks.
+ *
  */
 
 /* Example of prayer timings for DOY: 92
@@ -99,6 +110,18 @@ const tests = {
   }
 };
 
+/*
+ * Name: initializeSeleniumDriver
+ *
+ * Parameters:
+ *   url        - URL for the selenium instance 
+ *   retryCount - number of retries 
+ *   interval   - retry interval
+ *
+ * Returns: the selenium driver instance if it's up or null if it ran
+ * out of retries.
+ *
+ */
 async function initializeSeleniumDriver(url, retryCount = 9, interval = 5000) {
   let attempt = 0;
   while (attempt < retryCount) {
@@ -127,7 +150,7 @@ Object.entries(tests).forEach((test) => {
   const previousPrayer = estr['previousPrayer'];
   const expectedDate = estr['hijri'];
 
-  describe('Muslim Prayer Times Docker-Selenium Test', function () {
+  describe('01 Test scenario with time set to 2 minutes before prayers', function () {
     this.timeout(3600000);
 
     let driver; // Declare Selenium WebDriver
