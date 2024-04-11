@@ -4,7 +4,7 @@ const { Builder, By, until } = require('selenium-webdriver');
 // Import exec and util for executing shell commands and util.promisify
 const { exec } = require('child_process');
 const util = require('util');
-const { initializeSeleniumDriver }  = require('lib/utils');
+const { initializeSeleniumDriver }  = require('../lib/utils');
 
 // Convert exec to a promise-based function for async/await usage
 const execAsync = util.promisify(exec);
