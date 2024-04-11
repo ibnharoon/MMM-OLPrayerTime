@@ -32,3 +32,5 @@ async function initializeSeleniumDriver(url, retryCount = 9, interval = 5000) {
   // driver could not be created
   return null;
 }
+
+export { initializeSeleniumDriver };
