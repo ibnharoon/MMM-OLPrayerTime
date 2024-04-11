@@ -12,7 +12,7 @@ const { Builder } = require('selenium-webdriver');
  * out of retries.
  *
  */
-ezport async function initializeSeleniumDriver(url, retryCount = 9, interval = 5000) {
+export async function initializeSeleniumDriver(url, retryCount = 9, interval = 5000) {
   let attempt = 0;
   while (attempt < retryCount) {
     try {
