@@ -142,7 +142,9 @@ Object.entries(tests).forEach((test) => {
 
     after(async () => {
       // Cleanup actions after each test suite
-      await driver.quit();  // Quit the Selenium WebDriver
+      if (driver != null) {
+        await driver.quit();  // Quit the Selenium WebDriver
+      }
       await execAsync('docker compose down'); // Stop the Docker environment
 
       console.log(`Cleaning up Docker images`);
