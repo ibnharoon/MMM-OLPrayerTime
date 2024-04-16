@@ -187,7 +187,7 @@ module.exports = NodeHelper.create({
     var dch = cdate;
     Log.log('cdate: ' + cdate.toDate() + ', mtime: ' + mtime);
     // if prayer is on the next day or midnight time is greater than tomorrow's midnight hour
-    if ((this.nextDay.includes(this.ptimes[pn][PrayerIndex.Name]) && ( initial && (cdate.toDate() < mtime )) ) || 
+    if ((this.nextDay.includes(this.ptimes[pn][PrayerIndex.Name]) && (cdate.toDate() < mtime ) ) || 
     ( this.ptimes[pn][PrayerIndex.Name] === 'midnight' && this.mtoday )) {
       Log.log('prayer is on next day, adding 1 day for hijri date: ' + this.mtoday);
       dch = cdate.add(1, 'day');
@@ -297,7 +297,7 @@ module.exports = NodeHelper.create({
     } else {
       // use modulus to move to next prayer
       thisPrayer = this.currentPrayer['nprayer']['index'];
-      nextPrayer = (this.currentPrayer['nprayer']['index'] + 1) % Prayers.Midnight;
+      nextPrayer = (this.currentPrayer['nprayer']['index'] + 1) % (Prayers.Midnight + 1);
     }
 
     this.getNextPrayer(nowv, thisPrayer, nextPrayer, initial);

@@ -40,6 +40,7 @@ Module.register("MMM-OLPrayerTime", {
     this.updateticker = false;
     this.updatecprayer = false;
     this.updateptimes = false;
+    this.durationready = true;
     this.allPrayers = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha', 'midnight'];
 
     // send config information to node helper
@@ -218,34 +219,28 @@ Module.register("MMM-OLPrayerTime", {
         this.updateDom();
         break;
     }
+
+    this.durationready = true;
   },
 
   notificationReceived: function (notification, payload, sender) {
-    var updateTimerFunction = function(tobj) {
-      tobj.updateticker = true;
-      tobj.updatecprayer = false;
-      tobj.updateptimes = false;
-      tobj.updateDuration();
-      tobj.updateDom();
-    };
-
     switch (notification) {
       case 'CLOCK_MINUTE':
         Log.log("clock minute notification received from: " + JSON.stringify(sender) + ", payload: " + payload);
-        var timeout = 0;
 
         this.delta--;
-        
         this.delta = Math.max(this.delta, 0);
 
         if (this.delta == 0) {
-          // wait .5 seconds before updating UI i.e. until next prayers information is available
-          timeout = 500;
+          this.durationready = false;
           this.sendSocketNotification('UPDATEDURATION', {'minutes': parseInt(payload)});
+        } else {
+          this.updateticker = true;
+          this.updateprayer = false;
+          this.updateptimes = false;
+          this.updateDuration();
+          this.updateDom();
         }
-
-        // update duration
-        setTimeout( () => updateTimerFunction(this), timeout);
         break;
     }
   }
