@@ -106,16 +106,68 @@ const stages = [
 
 dates = [
   {
+    'day': 'begin of daylight saving',
     'period': 'before',
     'date': '2024-03-09'
   },
   {
+    'day': 'begin of daylight saving',
     'period': 'after',
     'date': '2024-03-10'
-  }
+  },
+  {
+    'day': 'end of daylight saving',
+    'period': 'before',
+    'date': '2024-11-02'
+  },
+  {
+    'day': 'end of daylight saving',
+    'period': 'after',
+    'date': '2024-11-03'
+  },
+  {
+    'day': 'end of leap year',
+    'period': 'before',
+    'date': '2024-12-31'
+  },
+  {
+    'day': 'end of leap year',
+    'period': 'after',
+    'date': '2025-01-01'
+  },
+  {
+    'day': 'end of leap day',
+    'period': 'before',
+    'date': '024-02-29'
+  },
+  {
+    'day': 'end of leap day',
+    'period': 'after',
+    'date': '024-03-01'
+  },
+  {
+    'day': 'end of non-leap year',
+    'period': 'before',
+    'date': '2025-12-31'
+  },
+  {
+    'day': 'end of non-leap year',
+    'period': 'after',
+    'date': '2026-01-01'
+  },
+  {
+    'day': 'end of non-leap day',
+    'period': 'before',
+    'date': '2025-02-28'
+  },
+  {
+    'day': 'end of non-leap day',
+    'period': 'after',
+    'date': '2025-03-01'
+  },
 ];
 
-// 1 day before/after daylight saving ends
+// 1 day before/after daylight saving starts
 for (const date of dates) {
   const rdate = new Dayjs(date['date'], 'YYYY-MM-DD');
   const testscenarios = generateTest(rdate);
@@ -128,7 +180,7 @@ for (const date of dates) {
     const nextHijri = testscenario['nextHijri'];
     const nextPrayer = testscenario['nextPrayer'];
 
-    describe('Test scenario for 1 day ' + date['period'] + ' daylight saving ends', function () {
+    describe('Test scenario for the day ' + date['period'] + ' ' + date['day'], function () {
       this.timeout(3600000);
 
       global.driver = null; // Declare Selenium WebDriver
