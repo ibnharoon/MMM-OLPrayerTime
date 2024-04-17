@@ -7,7 +7,7 @@
   "delay": false,
   "package": "./package.json",
   "parallel": false,
-  "recursive": true,
+  "recursive": false,
   "reporter": "mochawesome",
   "watch-files": ["test/js/*.js"],
   "spec": "./test/js/*.js"

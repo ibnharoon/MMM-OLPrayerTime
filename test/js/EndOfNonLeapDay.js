@@ -108,6 +108,7 @@ const stages = [
 const date = '2025-02-28';
 const rdate = new Dayjs(date, 'YYYY-MM-DD');
 const testscenarios = generateTest(rdate);
+// const testscenarios = {};
 
 Object.entries(testscenarios).forEach(([currentPrayer, testscenario]) => {
   // console.log(JSON.stringify(testscenario) + ', currentPrayer: ' + JSON.stringify(currentPrayer));
