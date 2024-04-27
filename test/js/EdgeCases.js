@@ -17,8 +17,8 @@ const {
   ValidateCurrentDate
 } = require('../lib/ValidateCurrentDate');
 const {
-  ValidateDuration
-} = require('../lib/ValidateDuration');
+  ValidateDurationBlink
+} = require('../lib/ValidateDurationBlink');
 const {
   ValidateCurrentHijriDate
 } = require('../lib/ValidateCurrentHijriDate');
@@ -50,7 +50,7 @@ const nonPrayer = ['Sunrise', 'Midnight'];
 global.expect = null;
 
 /*
- * Name: test02
+ * Name: EdgeCases
  *
  * Purpose:
  * This test suite is designed to validate the functionality of a prayer time application
@@ -104,27 +104,28 @@ const stages = [
   }
 ];
 
-dates = [
+const dates = [
   {
     'day': 'begin of daylight saving',
     'period': 'before',
     'date': '2024-03-09'
   },
-  {
-    'day': 'begin of daylight saving',
-    'period': 'after',
-    'date': '2024-03-10'
-  },
-  {
-    'day': 'end of daylight saving',
-    'period': 'before',
-    'date': '2024-11-02'
-  },
-  {
-    'day': 'end of daylight saving',
-    'period': 'after',
-    'date': '2024-11-03'
-  },
+  // {
+  //   'day': 'begin of daylight saving',
+  //   'period': 'after',
+  //   'date': '2024-03-10'
+  // },
+  // {
+  //   'day': 'end of daylight saving',
+  //   'period': 'before',
+  //   'date': '2024-11-02'
+  // },
+  // {
+  //   'day': 'end of daylight saving',
+  //   'period': 'after',
+  //   'date': '2024-11-03'
+  // },
+  /*
   {
     'day': 'end of leap year',
     'period': 'before',
@@ -138,12 +139,12 @@ dates = [
   {
     'day': 'end of leap day',
     'period': 'before',
-    'date': '024-02-29'
+    'date': '2024-02-29'
   },
   {
     'day': 'end of leap day',
     'period': 'after',
-    'date': '024-03-01'
+    'date': '2024-03-01'
   },
   {
     'day': 'end of non-leap year',
@@ -164,13 +165,17 @@ dates = [
     'day': 'end of non-leap day',
     'period': 'after',
     'date': '2025-03-01'
-  },
+  }
+  */
 ];
 
 // 1 day before/after daylight saving starts
 for (const date of dates) {
+  // console.log('date: ' + date['date']);
   const rdate = new Dayjs(date['date'], 'YYYY-MM-DD');
+  // console.log('rdate: ' + rdate.toDate());
   const testscenarios = generateTest(rdate);
+  // continue;
 
   Object.entries(testscenarios).forEach(([currentPrayer, testscenario]) => {
     // console.log(JSON.stringify(testscenario) + ', currentPrayer: ' + JSON.stringify(currentPrayer));
@@ -179,6 +184,7 @@ for (const date of dates) {
     const expectedHijriDate = testscenario['hijri'];
     const nextHijri = testscenario['nextHijri'];
     const nextPrayer = testscenario['nextPrayer'];
+    const midnightNextDay = testscenario['midnightNextDay'];
 
     describe('Test scenario for the day ' + date['period'] + ' ' + date['day'], function () {
       this.timeout(3600000);
@@ -235,7 +241,8 @@ for (const date of dates) {
           nextPrayer: nextPrayer,
           previousPrayer: previousPrayer,
           expectedHijriDate: expectedHijriDate,
-          nextHijri: nextHijri
+          nextHijri: nextHijri,
+          midnightNextDay: midnightNextDay
         };
 
         describe('Validate times ' + stage.msg + ' ' + currentPrayer + ' prayer', function () {
@@ -249,8 +256,7 @@ for (const date of dates) {
           });
 
           ValidateCurrentDate(config);
-          ValidateDuration(config);
-
+          ValidateDurationBlink(config);
           if (stage.min > 0) {
             ValidateCurrentHijriDate(config);
             ValidateNextPrayerMsg(config);

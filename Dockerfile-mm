@@ -18,11 +18,12 @@ WORKDIR /opt/magic_mirror/modules
 RUN git clone https://github.com/ibnharoon/MMM-OLPrayerTime.git
 
 WORKDIR /opt/magic_mirror/modules/MMM-OLPrayerTime
+RUN mkdir /opt/magic_mirror/modules/MMM-OLPrayerTime/lib
+COPY lib/PrayerTimes.js /opt/magic_mirror/modules/MMM-OLPrayerTime/lib
 COPY package.json /opt/magic_mirror/modules/MMM-OLPrayerTime
 COPY MMM-OLPrayerTime.css /opt/magic_mirror/modules/MMM-OLPrayerTime
 COPY MMM-OLPrayerTime.js /opt/magic_mirror/modules/MMM-OLPrayerTime
 COPY node_helper.js /opt/magic_mirror/modules/MMM-OLPrayerTime
-COPY prayers.json /opt/magic_mirror/modules/MMM-OLPrayerTime
 RUN npm install
 
 WORKDIR /opt/magic_mirror

@@ -7,7 +7,7 @@ Module.register("MMM-OLPrayerTime", {
     timeFormat: config.timeFormat || 12,    // 12 or 24
     method: "ISNA",                         // see document for prayer-times npm 
     asrfactor: "Standard",                  // see document for prayert-times npm
-    notDisplayed: ['sunrise', 'midnight'],             // Speed of the update animation. (milliseconds)
+    notDisplayed: ['sunrise', 'midnight'],
     language: config.language || "en",
     pthreshold: 10
   },
@@ -41,7 +41,7 @@ Module.register("MMM-OLPrayerTime", {
     this.updatecprayer = false;
     this.updateptimes = false;
     this.durationready = true;
-    this.allPrayers = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha', 'midnight'];
+    this.allPrayers = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha', 'Midnight'];
 
     // send config information to node helper
     this.sendSocketNotification('CONFIG', this.config);

@@ -2,7 +2,7 @@ const {
   getElementClass
 } = require('./ui');
 
-function ValidateDuration(config) {
+function ValidateDurationBlink(config) {
   it('The duration field should ' + (config.blink ? 'be ' : 'not be ') + 'blinking', async () => {
     const actualClasses = await getElementClass(driver, 'ptimeDOM-premain');
     const expectedClasses = 'tickercontent' + (config.blink ? ' blink' : '');
@@ -11,5 +11,5 @@ function ValidateDuration(config) {
 }
 
 module.exports = {
-  ValidateDuration
+  ValidateDurationBlink
 };

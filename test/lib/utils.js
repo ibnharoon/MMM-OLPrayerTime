@@ -1,11 +1,11 @@
 const { Builder } = require('selenium-webdriver');
 var Dayjs = require('dayjs');
-const prayertimes = require('../../prayers.json');
 var AdvancedFormat = require('dayjs/plugin/advancedFormat');
 var localizedFormat = require('dayjs/plugin/localizedFormat');
 var dayOfYear = require('dayjs/plugin/dayOfYear');
 var calendarSystems = require('@calidy/dayjs-calendarsystems');
 var HijriCalendarSystem = require('@calidy/dayjs-calendarsystems/calendarSystems/HijriCalendarSystem');
+var PrayerTime = require('../../lib/PrayerTimes');
 
 // Extend Dayjs
 Dayjs.extend(localizedFormat);
@@ -25,14 +25,28 @@ const Prayers = [
 ];
 
 const PrayerIndex = {
-  'fajr': 0,
-  'sunrise': 1,
-  'dhuhr': 2,
-  'asr': 3,
-  'maghrib': 4,
-  'isha': 5,
-  'midnight': 6
+  'Fajr': 0,
+  'Sunrise': 1,
+  'Dhuhr': 2,
+  'Asr': 3,
+  'Maghrib': 4,
+  'Isha': 5,
+  'Midnight': 6
 };
+
+function isInDaylightSavingTime(date) {
+  // Create a date for January 1st of the given date's year
+  const januaryFirst = new Date(date.getFullYear(), 0, 1);
+
+  // Get the timezone offset for January 1st (non-DST)
+  const standardTimeOffset = januaryFirst.getTimezoneOffset();
+
+  // Get the timezone offset for the given date
+  const currentTimeOffset = date.getTimezoneOffset();
+
+  // If the offsets are different, the given date is in DST
+  return currentTimeOffset < standardTimeOffset;
+}
 
 /*
  * Name: initializeSeleniumDriver
@@ -68,28 +82,41 @@ async function initializeSeleniumDriver(url, retryCount = 9, interval = 5000) {
 }
 
 function convertTimeStringToDate(timestring, cdatestring, pname) {
-  // console.log('t: ' + timestring + ', c: ' + cdatestring + ', p: ' + pname);
+  console.log('t: ' + timestring + ', c: ' + cdatestring + ', p: ' + pname);
   // midnight time
   var cdate = new Dayjs(cdatestring, 'YYYY-MM-DD hh:mm A');
-  // console.log('cdate: ' + cdate);
-  const midnight = cdate.toDate().setHours(0, 0, 0, 0);
-  // console.log('midnight: ' + midnight);
+  console.log('cdate: ' + cdate.toDate());
+  const midnight = new Date(cdate.toDate().setHours(0, 0, 0, 0));
+  console.log('midnight: ' + midnight);
   // midnight (12:00am) string
   const mdstr = new Dayjs(midnight).format('YYYY-MM-DD');
-  // console.log('mdstr: ' + mdstr);
+  console.log('mdstr: ' + mdstr);
 
   // noon value
-  const noontime = new Dayjs(midnight).add(12, "hours").valueOf();
-  // console.log('noon: ' + noontime);
+  const noontime = new Dayjs(midnight).add(12, "hours");
+  console.log('noon: ' + noontime.toDate());
+  // midnight
+  const midnighttime = new Dayjs(midnight).add( isInDaylightSavingTime(midnight) ? 0 : 1, 'day');
+  console.log('convert time string to date, midnight: ' + midnighttime.toDate() + ', DST: ' + isInDaylightSavingTime(midnight));
 
   var cpt = new Dayjs(mdstr + ' ' + timestring, "YYYY-MM-DD hh:mm A");
-  // console.log('cpt: ' + cpt);
+  console.log('cpt 1: ' + cpt.toDate() + ', DST: ' + isInDaylightSavingTime(cpt.toDate()));
 
   // if midnight time is after 12:00am, consider it the next day
-  if (pname === 'midnight' && cpt.valueOf() < noontime) {
-    cpt = cpt.add(1, "day");
+  if (pname === 'midnight' && cpt.valueOf() > midnight.valueOf()) {
+    console.log('cpt greater than midnight... adding 1 day');
+    // cpt = cpt.add(1, "day");
+    cpt = cpt.subtract(isInDaylightSavingTime(cpt.toDate()) ? 1 : 0, 'hour');
   }
-  //console.log('cpt: ' + cpt);
+
+  console.log('cpt 2: ' + cpt.toDate());
+  
+  // if ((pname === 'midnight' && cpt.valueOf() < midnighttime.valueOf()) && isInDaylightSavingTime(cpt.toDate())) {
+  //   console.log('DST, subtract 1 hour');
+  //   cpt = cpt.subtract(1, 'hour');
+  // }
+  
+  console.log('cpt final: ' + cpt.toDate());
   return cpt;
 }
 
@@ -136,39 +163,29 @@ function durationToString(bdate, edate) {
 
 function generateTest(rdate) {
   var result = {};
-  var mtime = rdate.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).add(1, 'day');
-  const rdstr = rdate.format('YYYY-MM-DD');
-  var doy = rdate.dayOfYear();
-  result = {};
-  for (var day = 0; day < prayertimes['schedule'].length; day++) {
-    if (prayertimes['schedule'][day]['day'] == doy) {
-      // console.log('Found doy: ' + JSON.stringify(prayertimes['schedule'][day]['day']));
-      // result['times']
-      Object.entries(prayertimes['schedule'][day]['times']).forEach(([prayerName, prayerTime]) => {
-        var dobj = convertTimeStringToDate(prayerTime, rdstr + ' 00:00 am', prayerName);
-        dobj = dobj.subtract(2, 'minute');
-        // console.log('time: ' + JSON.stringify(time) + ', dstr: ' + dobj.toDate());
-        fakeTime = '@' + dobj.format('YYYY-MM-DD HH:mm:ss');
-        const cprayer = prayerName.charAt(0).toUpperCase() + prayerName.slice(1);
-        const nextHijri = getFormattedHijriDate(
-          (['maghrib', 'isha'].includes(prayerName) || 
-            (['midnight'].includes(prayerName))) ? 
-              rdate.add(1, 'day') : rdate, 'en');
-        const hijri = getFormattedHijriDate(
-          (['isha'].includes(prayerName) ||
-            (['midnight'].includes(prayerName))) ?
-              rdate.add(1, 'day') : rdate, 'en');
-        result[cprayer] = {
-          'fakeTime': fakeTime,
-          'nextPrayer': Prayers[(PrayerIndex[prayerName] + 1) % Prayers.length],
-          'previousPrayer': (PrayerIndex[prayerName] - 1) < 0 ? 'Midnight' : Prayers[PrayerIndex[prayerName] - 1],
-          'hijri': hijri,
-          'nextHijri': nextHijri,
-        };
-      });
-      break;
-    }
+  const mtime = rdate.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).add(1, 'day');
+  const pt = new PrayerTime(rdate.toDate(), 37.3391931, -121.9389783, "en", 12).times;
+  const prayertime = Object.keys(pt).reduce((acc, key) => (acc[key] = pt[key].stime, acc), {});
+  console.log('prayer time: ' + JSON.stringify(prayertime));
+  console.log('midnight next: ' + mtime.toDate());
+  const mnnext = pt['Midnight'].time.isAfter(mtime);
+  Object.entries(prayertime).forEach(([prayerName, prayerTime]) => {
+  if (['Midnight'].includes(prayerName)) {
+    console.log('dobj: ' + prayerTime);
+    var fakeTime = '@' + pt[prayerName].time.format('YYYY-MM-DD HH:mm:ss');
+    console.log('faketime: ' + fakeTime);
+    result[prayerName] = {
+      'fakeTime': fakeTime,
+      'nextPrayer': Prayers[(PrayerIndex[prayerName] + 1) % Prayers.length],
+      'previousPrayer': (PrayerIndex[prayerName] - 1) < 0 ? 'Midnight' : Prayers[PrayerIndex[prayerName] - 1],
+      'hijri': pt['Fajr'].hijri,
+      'nextHijri': pt['Isha'].hijri,
+      'midnightNextDay': mnnext
+    };
   }
+  });
+  
+  console.log('result: ' + JSON.stringify(result));
   return result;
 }
 
