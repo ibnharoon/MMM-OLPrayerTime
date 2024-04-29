@@ -40,8 +40,6 @@ module.exports = NodeHelper.create({
   start: function () {
     this.config = false;                                        // configuration parameters
     this.cptimes = null;                                        // today's prayer time
-    this.yptimes = null;                                        // yesterday's prayer time
-    this.tptimes = null;                                        // tomorrow's prayer time
     this.currentPrayer = { 'cprayer': null, 'nprayer': null };  // track the current and next time
     this.delta = 0;                                             // minutes until next prayer
     this.minutes = 0;                                           // system clock minutes
