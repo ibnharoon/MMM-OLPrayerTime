@@ -14,7 +14,6 @@ var AdvancedFormat = require('dayjs/plugin/advancedFormat');
 var localizedFormat = require('dayjs/plugin/localizedFormat');
 var dayOfYear = require('dayjs/plugin/dayOfYear');
 var calendarSystems = require('@calidy/dayjs-calendarsystems');
-var HijriCalendarSystem = require('@calidy/dayjs-calendarsystems/calendarSystems/HijriCalendarSystem');
 var PrayerTime = require(__dirname + '/lib/PrayerTimes');
 
 // Prayers enum
