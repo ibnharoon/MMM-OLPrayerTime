@@ -34,18 +34,6 @@ Dayjs.extend(AdvancedFormat);
 Dayjs.extend(calendarSystems);
 
 function isInDaylightSavingTime(date) {
-  // Create a date for January 1st of the given date's year
-  const januaryFirst = new Date(date.getFullYear(), 0, 1);
-
-  // Get the timezone offset for January 1st (non-DST)
-  const standardTimeOffset = januaryFirst.getTimezoneOffset();
-
-  // Get the timezone offset for the given date
-  const currentTimeOffset = date.getTimezoneOffset();
-
-  // If the offsets are different, the given date is in DST
-  return currentTimeOffset < standardTimeOffset;
-}
 
 module.exports = NodeHelper.create({
   // Start function implementation
