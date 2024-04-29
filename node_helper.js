@@ -45,8 +45,6 @@ module.exports = NodeHelper.create({
     this.minutes = 0;                                           // system clock minutes
     this.dateString = '';                                       // hijri date string
     this.nextDay = ['Maghrib', 'Isha'];                         // these prayers are considered as the next day
-    this.mtoday = true;                                         // Today's midnight is the same day
-    this.myesterday = true;                                     // Yesterday's midnight is the same day
   },
 
   /*
