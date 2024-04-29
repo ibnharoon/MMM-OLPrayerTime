@@ -210,7 +210,7 @@ module.exports = NodeHelper.create({
       const topv = pt[i].Value;
 
       // if time of prayer is less than now, it becomes the current prayer
-      Log.log("update current prayer topv: " + topv.valueOf() + ", nowv: " + nowv.toDate() + ", cpr: " + cpr);
+      Log.log("update current prayer topv: " + topv.toDate() + ", nowv: " + nowv.toDate() + ", cpr: " + cpr);
       if (nowv.isAfter(topv)) {
         Log.log('topv: ' + topv.toDate() + ', nowv: ' + nowv.toDate());
         nextPrayer = ((i - di) >= 0) ? ((i - di) % (Prayers.Midnight + 1)) : Prayers.Fajr;
