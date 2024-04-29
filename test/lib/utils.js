@@ -166,23 +166,23 @@ function generateTest(rdate) {
   const mtime = rdate.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).add(1, 'day');
   const pt = new PrayerTime(rdate.toDate(), 37.3391931, -121.9389783, "en", 12).times;
   const prayertime = Object.keys(pt).reduce((acc, key) => (acc[key] = pt[key].stime, acc), {});
-  console.log('prayer time: ' + JSON.stringify(prayertime));
+  console.log('prayer time: ' + JSON.stringify(pt));
   console.log('midnight next: ' + mtime.toDate());
   const mnnext = pt['Midnight'].time.isAfter(mtime);
   Object.entries(prayertime).forEach(([prayerName, prayerTime]) => {
-  if (['Midnight'].includes(prayerName)) {
-    console.log('dobj: ' + prayerTime);
-    var fakeTime = '@' + pt[prayerName].time.format('YYYY-MM-DD HH:mm:ss');
-    console.log('faketime: ' + fakeTime);
+  // if (['Fajr'].includes(prayerName)) {
+    // console.log('dobj: ' + prayerTime);
+    var fakeTime = '@' + pt[prayerName].time.subtract(2, 'minute').format('YYYY-MM-DD HH:mm:ss');
+    // console.log('faketime: ' + fakeTime);
     result[prayerName] = {
       'fakeTime': fakeTime,
       'nextPrayer': Prayers[(PrayerIndex[prayerName] + 1) % Prayers.length],
       'previousPrayer': (PrayerIndex[prayerName] - 1) < 0 ? 'Midnight' : Prayers[PrayerIndex[prayerName] - 1],
-      'hijri': pt['Fajr'].hijri,
-      'nextHijri': pt['Isha'].hijri,
+      'hijri': pt[(PrayerIndex[prayerName] - 1) < 0 ? 'Midnight' : Prayers[PrayerIndex[prayerName] - 1]].hijri,
+      'nextHijri': pt[prayerName].hijri,
       'midnightNextDay': mnnext
     };
-  }
+  // }
   });
   
   console.log('result: ' + JSON.stringify(result));

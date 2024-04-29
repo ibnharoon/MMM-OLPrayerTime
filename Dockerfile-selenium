@@ -1,5 +1,5 @@
 # Start with the official Selenium Standalone Chrome image
-FROM selenium/standalone-chrome:latest
+FROM selenium/standalone-chrome:123.0
 
 USER root
 

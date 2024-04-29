@@ -12,7 +12,7 @@ function ValidateNextPrayerDuration(config) {
   it('The next prayer duration should be correct', async () => {
     console.log('validate next prayer duration config: ' + JSON.stringify(config));
     var actualDur = await getElementText(driver, 'ptimeDOM-premain');
-    const prayerTimeString = await getElementText(driver, 'ptimeDOM-table-td-ptime-' + config.nextPrayer.toLowerCase());
+    const prayerTimeString = await getElementText(driver, 'ptimeDOM-table-td-ptime-' + config.nextPrayer);
     console.log('prayer time string: ' + prayerTimeString);
     var currentDateString = await getElementText(driver, 'currentTime');
     console.log('current date string: ' + currentDateString);

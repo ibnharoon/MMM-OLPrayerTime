@@ -60,7 +60,7 @@ module.exports = NodeHelper.create({
     this.minutes = 0;                                           // system clock minutes
     this.dateString = '';                                       // hijri date string
     this.doy = 1;                                               // day of year 1..366
-    this.nextDay = ['maghrib', 'isha'];                         // these prayers are considered as the next day
+    this.nextDay = ['Maghrib', 'Isha'];                         // these prayers are considered as the next day
     this.mtoday = true;                                         // Today's midnight is the same day
     this.myesterday = true;                                     // Yesterday's midnight is the same day
   },
@@ -78,13 +78,13 @@ module.exports = NodeHelper.create({
    * 
    */
   updateDuration: function (initial) {
-    Log.log("updateDuration(): next prayer: " + this.currentPrayer['nprayer']['time'] + ', current time: ' + new Date());
+    Log.log("updateDuration(): next prayer: " + this.currentPrayer['nprayer']['time'].toDate() + ', current time: ' + new Date());
     if (this.currentPrayer['nprayer'] != null) {
-      var ctime = new Dayjs(new Date()).valueOf();
+      var ctime = new Dayjs(new Date());
 
       // get the next prayer time
-      let nptime = new Dayjs(this.currentPrayer['nprayer']['time']).valueOf();
-      Log.log("Next prayer time: " + this.currentPrayer['nprayer']['time']);
+      let nptime = new Dayjs(this.currentPrayer['nprayer']['time']);
+      Log.log("Next prayer time: " + this.currentPrayer['nprayer']['time'].toDate());
 
       // Add 1 minute if it's initial settings
       var addinit = 0;
@@ -92,9 +92,10 @@ module.exports = NodeHelper.create({
         addinit += 1;
       }
 
-      if (nptime >= ctime) {
-        Log.log('nptime: ' + nptime + ', ctime: ' + ctime);
-        this.delta = Math.max(Math.floor((nptime - ctime)/60000) + addinit, 0);
+      if (ctime.isBefore(nptime)) {
+        Log.log('nptime: ' + nptime.toDate() + ', ctime: ' + ctime.toDate());
+        // this.delta = Math.max(Math.floor((nptime.subtract(ctime))/60000) + addinit, 0);
+        this.delta = nptime.diff(ctime, 'minute') + addinit;
         Log.log("delta: " + this.delta);
       } else {
         Log.log('current time is more than next prayer time');
@@ -159,31 +160,30 @@ module.exports = NodeHelper.create({
   getNextPrayer: function (cpr, pn, npr, initial) {
     Log.log("getNextPrayer(): current prayer: " + cpr[pn].Name + ", next prayer: " + cpr[npr].Name);
     // date object for midnight hour on the next day
-    const mtime = cpr[pn].Value.add(1, 'day').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
+    const mtime = cpr[pn].Value.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
     this.currentPrayer['cprayer'] = cpr[pn];
     this.currentPrayer['nprayer'] = 
       {
         'time': cpr[npr].Value, 
         'name': cpr[npr].Name, 
-        'index': npr 
+        'index': npr
       };
   
     this.updateDuration(initial);
 
-    Log.log("current prayer: " + JSON.stringify(this.currentPrayer['cprayer']) + ", next prayer: " + cpr[npr].Name + " : " + cpr[npr].Value);
+    Log.log("current prayer: " + JSON.stringify(this.currentPrayer['cprayer']) + ", next prayer: " + cpr[npr].Name + " : " + cpr[npr].Value.toDate());
     Log.log('mtime: ' + mtime.toDate());
-    // if prayer is on the next day or midnight time is greater than tomorrow's midnight hour
-    if ((this.nextDay.includes(cpr[pn].Name) && (cdate.valueOf() < mtime.valueOf() ) ) || 
-    ( cpr[pn].Name === 'Midnight' && this.myesterday )) {
-      Log.log('prayer is on next day, adding 1 day for hijri, midnight date is today: ' + this.myesterday);
+    if ((cpr[pn].Name === 'Midnight') && (this.cptimes[cpr[pn].Name]['time'].isAfter(mtime))) {
+      Log.log('prayer is for next day, use yesterday\'s hijri');
+      cpr[pn].hijri = this.cptimes['Midnight'].yhijri;
     }
 
     this.sendSocketNotification('UPDATECURRENTPRAYER', 
       {
         'cprayer': this.currentPrayer['cprayer'].Name, 
         'nprayer': this.currentPrayer['nprayer']['name'], 
-        duration: this.delta, 
-        'dateString': this.cptimes[cpr[pn].Name].hijri
+        'duration': this.delta, 
+        'dateString': cpr[pn].hijri
       });
   },
 
@@ -219,7 +219,7 @@ module.exports = NodeHelper.create({
     }
 
     for (var i = startPrayer; i >= endPrayers; i += di) {
-      Log.log("Name: " + pt[i].Name + ", time: " + pt[i].Value + ', i: ' + i);
+      Log.log("Name: " + pt[i].Name + ", time: " + pt[i].Value.toDate() + ', i: ' + i);
 
       // get the current prayer name
       let cpr = pt[i].Name;
@@ -228,12 +228,12 @@ module.exports = NodeHelper.create({
       const topv = pt[i].Value;
 
       // if time of prayer is less than now, it becomes the current prayer
-      Log.log("update current prayer topv: " + topv.valueOf() + ", nowv: " + nowv.valueOf() + ", cpr: " + cpr);
-      if (nowv.valueOf() > topv.valueOf()) {
+      Log.log("update current prayer topv: " + topv.valueOf() + ", nowv: " + nowv.toDate() + ", cpr: " + cpr);
+      if (nowv.isAfter(topv)) {
         Log.log('topv: ' + topv.toDate() + ', nowv: ' + nowv.toDate());
         nextPrayer = ((i - di) >= 0) ? ((i - di) % (Prayers.Midnight + 1)) : Prayers.Fajr;
         Log.log('i: ' + i + ', ni: ' + nextPrayer);
-        Log.log("found next prayer at: " + pt[nextPrayer].Value + ", current prayer: " + cpr);
+        Log.log("found next prayer at: " + pt[nextPrayer].Value.toDate() + ", current prayer: " + cpr);
         Log.log("updating prayer after " + cpr + ', next: ' + pt[nextPrayer].Name);
         thisPrayer = i;
         break;
@@ -277,7 +277,7 @@ module.exports = NodeHelper.create({
     var thisPrayer = Prayers.Midnight;
     var nextPrayer = Prayers.Fajr;
     // const cpr = Object.keys(this.cptimes).map(key => [{'Name': key, 'Value': this.cptimes[key]['time']}]).sort((a, b) => a['Value'].isBefore(b['Value']));
-    const cpr = Object.keys(this.cptimes).map(key => ({'Name': key, 'Value': this.cptimes[key]['time']}));
+    const cpr = Object.keys(this.cptimes).map(key => ({'Name': key, 'Value': this.cptimes[key]['time'], 'hijri': this.cptimes[key]['hijri']}));
     if (initial) {
       [thisPrayer, nextPrayer] = this.findNextPrayer(nowv, cpr, true, initial);
     } else {
@@ -332,7 +332,7 @@ module.exports = NodeHelper.create({
     this.updateCurrentPrayer(initial, true);
 
     var ptimesret = {
-      'dateString': this.cptimes[this.currentPrayer['cprayer'].Name].hijri,
+      'dateString': this.currentPrayer['cprayer'].hijri,
       'date': rdate,
       'timings': Object.keys(this.cptimes).reduce((acc, key) => (acc[key] = this.cptimes[key].stime, acc), {}),
       'cprayer': this.currentPrayer['cprayer'].Name,

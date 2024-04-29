@@ -110,22 +110,21 @@ const dates = [
     'period': 'before',
     'date': '2024-03-09'
   },
-  // {
-  //   'day': 'begin of daylight saving',
-  //   'period': 'after',
-  //   'date': '2024-03-10'
-  // },
-  // {
-  //   'day': 'end of daylight saving',
-  //   'period': 'before',
-  //   'date': '2024-11-02'
-  // },
-  // {
-  //   'day': 'end of daylight saving',
-  //   'period': 'after',
-  //   'date': '2024-11-03'
-  // },
-  /*
+  {
+    'day': 'begin of daylight saving',
+    'period': 'after',
+    'date': '2024-03-10'
+  },
+  {
+    'day': 'end of daylight saving',
+    'period': 'before',
+    'date': '2024-11-02'
+  },
+  {
+    'day': 'end of daylight saving',
+    'period': 'after',
+    'date': '2024-11-03'
+  },
   {
     'day': 'end of leap year',
     'period': 'before',
@@ -166,7 +165,6 @@ const dates = [
     'period': 'after',
     'date': '2025-03-01'
   }
-  */
 ];
 
 // 1 day before/after daylight saving starts
@@ -214,6 +212,15 @@ for (const date of dates) {
       });
 
       after(async () => {
+        // save logs from MM and selenium
+        var logs = await execAsync('docker logs mm-magicmirror');
+        console.log('Magic Mirror log:');
+        console.log(JSON.stringify(logs));
+
+        logs = await execAsync('docker logs mm-selenium');
+        console.log('Selenium log:');
+        console.log(JSON.stringify(logs));
+
         // Cleanup actions after each test suite
         if (driver !== null) {
           await driver.quit();  // Quit the Selenium WebDriver
