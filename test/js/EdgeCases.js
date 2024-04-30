@@ -205,10 +205,21 @@ for (const date of dates) {
         await execAsync(`docker build --build-arg "FAKETIME=${fakeTime}" -t mm-selenium . --file Dockerfile-selenium`);
         await execAsync('docker compose up -d');  // Start the Docker environment
         
-        // var netlog = await execAsync('docker network inspect mmm-olprayertime_mm-network');
-        // console.log('network:');
-        // console.log(JSON.stringify(netlog));
+        var mmdate = await execAsync('docker exec mm-magicmirror date');
+        console.log('mm date:');
+        console.log(JSON.stringify(mmdate));
+        var mmvars = await execAsync('docker exec mm-magicmirror env');
+        console.log('mm env:');
+        console.log(JSON.stringify(mmvars));
         
+        var seldate = await execAsync('docker exec mm-selenium date');
+        console.log('selenium date:');
+        console.log(JSON.stringify(seldate));
+        
+        var selvars = await execAsync('docker exec mm-selenium env');
+        console.log('selenium env:');
+        console.log(JSON.stringify(selvars));
+      
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
         // console.log('mm ip: "' + mmip + '"');
