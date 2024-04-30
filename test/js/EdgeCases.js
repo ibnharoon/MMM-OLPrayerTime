@@ -208,19 +208,19 @@ for (const date of dates) {
         console.log(JSON.stringify(netlog));
         
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
-        console.log('mm ip:');
-        console.log(mmip.stdout);
+        mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
+        console.log('mm ip: "' + mmip + '"');
         
         var selip = await execAsync('docker exec mm-selenium hostname -i');
-        console.log('selenium ip:');
-        console.log(selip.stdout);
+        selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
+        console.log('selenium ip:"' + selip + '"');
         
-        const seleniumServerUrl = 'http://172.20.5.2:4444/wd/hub';
+        const seleniumServerUrl = 'http://' + selip + ':4444/wd/hub';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
         // Assert that driver is initialized successfully
         expect(driver, 'Selenium server did not start within the expected time.').to.not.be.null;
 
-        await driver.get('http://172.20.5.1:8080');
+        await driver.get('http://' + mmip + ':8080');
 
         // Wait for the element to be present in the DOM and assert its presence
         var durationElement = await driver.wait(until.elementLocated(By.id('ptimeDOM-premain')), 10000);
