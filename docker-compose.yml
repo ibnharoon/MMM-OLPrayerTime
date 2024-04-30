@@ -23,6 +23,8 @@ services:
 networks:
   mm-network:
     ipam:
+      driver: default
       config:
         - subnet: 172.20.0.0/16
           ip_range: 172.20.5.0/24
+          gateway: 172.20.5.254
