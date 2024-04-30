@@ -92,7 +92,6 @@ const stages = [
     blink: true,
     msg: '2m before'
   },
-  /*
   {
     min: 1,
     delay: 60000,
@@ -105,7 +104,6 @@ const stages = [
     blink: false,
     msg: 'on'
   }
-  */
 ];
 
 const dates = [
@@ -177,9 +175,9 @@ const dates = [
 
 // 1 day before/after daylight saving starts
 for (const date of dates) {
-  console.log('date: ' + date['date']);
+  // console.log('date: ' + date['date']);
   const rdate = new Dayjs.tz(date['date'] + ' 00:00:00', 'America/Los_Angeles');
-  console.log('rdate: ' + rdate.toDate());
+  // console.log('rdate: ' + rdate.toDate());
   const testscenarios = generateTest(rdate);
   // continue;
 
@@ -207,20 +205,19 @@ for (const date of dates) {
         await execAsync(`docker build --build-arg "FAKETIME=${fakeTime}" -t mm-selenium . --file Dockerfile-selenium`);
         await execAsync('docker compose up -d');  // Start the Docker environment
         
-        var mmdate = await execAsync('docker exec mm-magicmirror date');
-        console.log('mm date:');
-        console.log(JSON.stringify(mmdate));
-        var mmvars = await execAsync('docker exec mm-magicmirror env');
-        console.log('mm env:');
-        console.log(JSON.stringify(mmvars));
+        // var mmdate = await execAsync('docker exec mm-magicmirror date');
+        // console.log('mm date:');
+        // console.log(JSON.stringify(mmdate));
+        // var mmvars = await execAsync('docker exec mm-magicmirror env');
+        // console.log('mm env:');
+        // console.log(JSON.stringify(mmvars));
         
-        var seldate = await execAsync('docker exec mm-selenium date');
-        console.log('selenium date:');
-        console.log(JSON.stringify(seldate));
-        
-        var selvars = await execAsync('docker exec mm-selenium env');
-        console.log('selenium env:');
-        console.log(JSON.stringify(selvars));
+        // var seldate = await execAsync('docker exec mm-selenium date');
+        // console.log('selenium date:');
+        // console.log(JSON.stringify(seldate));  
+        // var selvars = await execAsync('docker exec mm-selenium env');
+        // console.log('selenium env:');
+        // console.log(JSON.stringify(selvars));
       
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
