@@ -177,8 +177,8 @@ const dates = [
 
 // 1 day before/after daylight saving starts
 for (const date of dates) {
-  // console.log('date: ' + date['date']);
-  const rdate = new Dayjs(date['date'], 'YYYY-MM-DD').tz('America/Los_Angeles');
+  console.log('date: ' + date['date']);
+  const rdate = new Dayjs.tz(date['date'] + ' 00:00:00').tz('America/Los_Angeles');
   console.log('rdate: ' + rdate.toDate());
   const testscenarios = generateTest(rdate);
   continue;
