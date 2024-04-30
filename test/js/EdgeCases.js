@@ -5,6 +5,7 @@ const { Builder, By, until } = require('selenium-webdriver');
 const { exec } = require('child_process');
 const util = require('util');
 const Dayjs = require('dayjs');
+Dayjs.extend(require('dayjs/plugin/utc'));
 Dayjs.extend(require('dayjs/plugin/timezone'));
 const {
   initializeSeleniumDriver,
