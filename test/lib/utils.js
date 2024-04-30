@@ -170,7 +170,7 @@ function generateTest(rdate) {
   console.log('midnight next: ' + mtime.toDate());
   const mnnext = pt['Midnight'].time.isAfter(mtime);
   Object.entries(prayertime).forEach(([prayerName, prayerTime]) => {
-  // if (['Maghrib'].includes(prayerName)) {
+  if (['Fajr'].includes(prayerName)) {
     // console.log('dobj: ' + prayerTime);
     var fakeTime = '@' + pt[prayerName].time.tz('America/Los_Angeles').subtract(2, 'minute').format('YYYY-MM-DD HH:mm:ss');
     // console.log('faketime: ' + fakeTime);
@@ -182,7 +182,7 @@ function generateTest(rdate) {
       'nextHijri': pt[prayerName].hijri,
       'midnightNextDay': mnnext
     };
-  // }
+  }
   });
   
   console.log('result: ' + JSON.stringify(result));
