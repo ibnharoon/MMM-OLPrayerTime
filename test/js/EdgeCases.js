@@ -216,7 +216,7 @@ for (const date of dates) {
       });
 
       after(async () => {
-        var netlog = await execAsync('docker network inspect mm-network');
+        var netlog = await execAsync('docker network ls');
         console.log('network:');
         console.log(JSON.stringify(netlog));
         // save logs from MM and selenium
