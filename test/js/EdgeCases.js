@@ -209,11 +209,11 @@ for (const date of dates) {
         
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         console.log('mm ip:');
-        console.log(mmip);
+        console.log(mmip.stdout);
         
         var selip = await execAsync('docker exec mm-selenium hostname -i');
         console.log('selenium ip:');
-        console.log(selip);
+        console.log(selip.stdout);
         
         const seleniumServerUrl = 'http://172.20.5.2:4444/wd/hub';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
