@@ -223,8 +223,8 @@ for (const date of dates) {
         // console.log('mm ip:');
         // console.log(JSON.stringify(netlog));
         
-        netlog = await execAsync('docker exec mm-selenium ip add');
-        console.log('selenium ip:');
+        netlog = await execAsync('docker exec mm-selenium hostname -l');
+        console.log('selenium network:');
         console.log(JSON.stringify(netlog));
         
         // save logs from MM and selenium
