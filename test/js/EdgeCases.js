@@ -216,17 +216,6 @@ for (const date of dates) {
       });
 
       after(async () => {
-        var netlog = await execAsync('docker network inspect mmm-olprayertime_mm-network');
-        console.log('network:');
-        console.log(JSON.stringify(netlog));
-        netlog = await execAsync('docker exec mm-magicmirror hostname -i');
-        console.log('mm ip:');
-        console.log(JSON.stringify(netlog));
-        
-        netlog = await execAsync('docker exec mm-selenium hostname -i');
-        console.log('selenium ip:');
-        console.log(JSON.stringify(netlog));
-        
         // save logs from MM and selenium
         var logs = await execAsync('docker logs mm-magicmirror');
         console.log('Magic Mirror log:');
@@ -235,7 +224,19 @@ for (const date of dates) {
         logs = await execAsync('docker logs mm-selenium');
         console.log('Selenium log:');
         console.log(JSON.stringify(logs));
-
+        
+        var netlog = await execAsync('docker network inspect mmm-olprayertime_mm-network');
+        console.log('network:');
+        console.log(JSON.stringify(netlog));
+        
+        netlog = await execAsync('docker exec mm-magicmirror hostname -i');
+        console.log('mm ip:');
+        console.log(JSON.stringify(netlog));
+        
+        netlog = await execAsync('docker exec mm-selenium hostname -i');
+        console.log('selenium ip:');
+        console.log(JSON.stringify(netlog));
+     
         // Cleanup actions after each test suite
         if (driver !== null) {
           await driver.quit();  // Quit the Selenium WebDriver
