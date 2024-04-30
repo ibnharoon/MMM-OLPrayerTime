@@ -282,7 +282,7 @@ module.exports = NodeHelper.create({
    * 
    */
   getTodayPrayerTimes: function(rdate) {
-    this.cptimes = new PrayerTime(rdate, this.config.latitude, this.config.longitude, this.config.language, this.config.timeFormat).times;
+    this.cptimes = new PrayerTime(rdate, this.config.latitude, this.config.longitude, this.config.language, this.config.timeFormat, 'America/Los_Angeles').times;
     console.log('ptimes: ' + JSON.stringify(this.cptimes));
   },
 
