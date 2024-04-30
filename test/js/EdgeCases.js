@@ -107,7 +107,6 @@ const stages = [
 ];
 
 const dates = [
-  /*
   {
     'day': 'begin of daylight saving',
     'period': 'before',
@@ -118,7 +117,6 @@ const dates = [
     'period': 'after',
     'date': '2024-03-10'
   },
-  "/
   {
     'day': 'end of daylight saving',
     'period': 'before',
