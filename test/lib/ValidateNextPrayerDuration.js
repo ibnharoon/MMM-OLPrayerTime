@@ -26,6 +26,8 @@ function ValidateNextPrayerDuration(config) {
     if (config.currentPrayer === 'Midnight' && endDate.isBefore(midnight) && config.midnightNextDay) {
       console.log('add 1 day to enddate');
       endDate = endDate.add(1, 'day');
+    }
+    if (config.currentPrayer === 'Midnight' && endDate.isBefore(this.expectedDate)) {
       const pt = new PrayerTime(endDate.toDate(), 37.3391931, -121.9389783, "en", 12, 'America/Los_Angeles').times;
       endDate = pt['Fajr'].time;
     }
