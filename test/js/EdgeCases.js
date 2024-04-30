@@ -179,9 +179,9 @@ const dates = [
 for (const date of dates) {
   console.log('date: ' + date['date']);
   const rdate = new Dayjs.tz(date['date'] + ' 00:00:00', 'America/Los_Angeles');
-  console.log('rdate: ' + rdate);
+  console.log('rdate: ' + rdate.toDate());
   const testscenarios = generateTest(rdate);
-  continue;
+  // continue;
 
   Object.entries(testscenarios).forEach(([currentPrayer, testscenario]) => {
     // console.log(JSON.stringify(testscenario) + ', currentPrayer: ' + JSON.stringify(currentPrayer));
