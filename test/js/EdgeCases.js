@@ -5,6 +5,7 @@ const { Builder, By, until } = require('selenium-webdriver');
 const { exec } = require('child_process');
 const util = require('util');
 const Dayjs = require('dayjs');
+Dayjs.extend(require('dayjs/plugin/timezone'));
 const {
   initializeSeleniumDriver,
   generateTest
@@ -176,10 +177,10 @@ const dates = [
 // 1 day before/after daylight saving starts
 for (const date of dates) {
   // console.log('date: ' + date['date']);
-  const rdate = new Dayjs(date['date'], 'YYYY-MM-DD');
-  // console.log('rdate: ' + rdate.toDate());
+  const rdate = new Dayjs(date['date'], 'YYYY-MM-DD').tz('America/Los_Angeles');
+  console.log('rdate: ' + rdate.toDate());
   const testscenarios = generateTest(rdate);
-  // continue;
+  continue;
 
   Object.entries(testscenarios).forEach(([currentPrayer, testscenario]) => {
     // console.log(JSON.stringify(testscenario) + ', currentPrayer: ' + JSON.stringify(currentPrayer));
