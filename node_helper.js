@@ -33,8 +33,6 @@ Dayjs.extend(dayOfYear);
 Dayjs.extend(AdvancedFormat);
 Dayjs.extend(calendarSystems);
 
-function isInDaylightSavingTime(date) {
-
 module.exports = NodeHelper.create({
   // Start function implementation
   start: function () {
