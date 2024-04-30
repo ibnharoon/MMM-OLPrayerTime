@@ -172,7 +172,7 @@ function generateTest(rdate) {
   Object.entries(prayertime).forEach(([prayerName, prayerTime]) => {
   if (['Maghrib'].includes(prayerName)) {
     // console.log('dobj: ' + prayerTime);
-    var fakeTime = '@' + pt[prayerName].time.subtract(2, 'minute').format('YYYY-MM-DD HH:mm:ss');
+    var fakeTime = '@' + pt[prayerName].time.tz('America/Los_Angeles').subtract(2, 'minute').format('YYYY-MM-DD HH:mm:ss');
     // console.log('faketime: ' + fakeTime);
     result[prayerName] = {
       'fakeTime': fakeTime,
