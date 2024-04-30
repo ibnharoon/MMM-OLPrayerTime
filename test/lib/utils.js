@@ -60,7 +60,7 @@ function isInDaylightSavingTime(date) {
  * out of retries.
  *
  */
-async function initializeSeleniumDriver(url, retryCount = 9, interval = 5000) {
+async function initializeSeleniumDriver(url, retryCount = 2, interval = 5000) {
   let attempt = 0;
   while (attempt < retryCount) {
     try {
