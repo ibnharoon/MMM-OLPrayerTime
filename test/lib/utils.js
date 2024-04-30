@@ -142,7 +142,7 @@ function getFormattedHijriDate(cdate, locale) {
 }
 
 function durationToString(bdate, edate) {
-  //console.log('bdate: ' + bdate + ', edate: ' + edate);
+  console.log('duration to string bdate: ' + bdate.toDate() + ', edate: ' + edate.toDate());
   let mins = Math.max(Math.floor((edate.valueOf() - bdate.valueOf()) / 60000), 0);
   let h = Math.floor(mins / 60);
   let m = mins % 60;
