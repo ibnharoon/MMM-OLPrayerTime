@@ -216,6 +216,9 @@ for (const date of dates) {
       });
 
       after(async () => {
+        var netlog = await execAsync('docker network inspect mm-magicmirror');
+        console.log('network:');
+        console.log(JSON.stringify(netlog));
         // save logs from MM and selenium
         var logs = await execAsync('docker logs mm-magicmirror');
         console.log('Magic Mirror log:');
