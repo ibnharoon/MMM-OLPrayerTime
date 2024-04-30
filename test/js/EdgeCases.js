@@ -205,17 +205,17 @@ for (const date of dates) {
         await execAsync(`docker build --build-arg "FAKETIME=${fakeTime}" -t mm-selenium . --file Dockerfile-selenium`);
         await execAsync('docker compose up -d');  // Start the Docker environment
         
-        var netlog = await execAsync('docker network inspect mmm-olprayertime_mm-network');
-        console.log('network:');
-        console.log(JSON.stringify(netlog));
+        // var netlog = await execAsync('docker network inspect mmm-olprayertime_mm-network');
+        // console.log('network:');
+        // console.log(JSON.stringify(netlog));
         
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
-        console.log('mm ip: "' + mmip + '"');
+        // console.log('mm ip: "' + mmip + '"');
         
         var selip = await execAsync('docker exec mm-selenium hostname -i');
         selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
-        console.log('selenium ip:"' + selip + '"');
+        // console.log('selenium ip:"' + selip + '"');
         
         const seleniumServerUrl = 'http://' + selip + ':4444/wd/hub';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
