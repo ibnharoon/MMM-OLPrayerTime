@@ -219,9 +219,9 @@ for (const date of dates) {
         var netlog = await execAsync('docker network inspect mmm-olprayertime_mm-network');
         console.log('network:');
         console.log(JSON.stringify(netlog));
-        netlog = await execAsync('docker exec mm-magicmirror ip add');
-        console.log('mm ip:');
-        console.log(JSON.stringify(netlog));
+        // netlog = await execAsync('docker exec mm-magicmirror ip add');
+        // console.log('mm ip:');
+        // console.log(JSON.stringify(netlog));
         
         netlog = await execAsync('docker exec mm-selenium ip add');
         console.log('selenium ip:');
