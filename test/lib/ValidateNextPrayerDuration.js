@@ -20,9 +20,11 @@ function ValidateNextPrayerDuration(config) {
     console.log('end date before: ' + endDate.toDate());
     const midnight = new Dayjs(config.expectedDate.toDate().setHours(0, 0, 0, 0)).add((config.midnightNextDay) ? 0 : 1, 'day');
     console.log('midnight before: ' + midnight.toDate());
-    // const midnighttime = new Dayjs(midnight).add(1, 'day');
-    // console.log('midnight time: ' + midnighttime.toDate());
-    if (config.currentPrayer === 'Midnight' && endDate.valueOf() < midnight.valueOf() && config.midnightNextDay) {
+    const midnighttime = new Dayjs(midnight).add(1, 'day');
+    console.log('midnight time: ' + midnighttime.toDate());
+    console.log('midnight: ' + midnight.toDate() + ', enddate: ' + endDate.toDate());
+    if (config.currentPrayer === 'Midnight' && endDate.isBefore(midnight) && config.midnightNextDay) {
+      console.log('add 1 day to enddate');
       endDate = endDate.add(1, 'day');
     }
     console.log('current date string: ' + currentDateString + ', expected date: ' + config.expectedDate.toDate() + ', endDate: ' + endDate.toDate());
