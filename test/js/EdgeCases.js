@@ -92,6 +92,7 @@ const stages = [
     blink: true,
     msg: '2m before'
   },
+  /*
   {
     min: 1,
     delay: 60000,
@@ -104,6 +105,7 @@ const stages = [
     blink: false,
     msg: 'on'
   }
+  */
 ];
 
 const dates = [
