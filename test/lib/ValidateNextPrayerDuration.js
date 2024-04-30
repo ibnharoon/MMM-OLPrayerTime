@@ -28,7 +28,8 @@ function ValidateNextPrayerDuration(config) {
       endDate = endDate.add(1, 'day');
     }
     if (config.currentPrayer === 'Midnight' && endDate.isBefore(this.expectedDate)) {
-      const pt = new PrayerTime(endDate.toDate(), 37.3391931, -121.9389783, "en", 12, 'America/Los_Angeles').times;
+      console.log('fajr is for yesterday, get today\'s prayer');
+      const pt = new PrayerTime(endDate.add(1, 'day').toDate(), 37.3391931, -121.9389783, "en", 12, 'America/Los_Angeles').times;
       endDate = pt['Fajr'].time;
     }
     console.log('current date string: ' + currentDateString + ', expected date: ' + config.expectedDate.toDate() + ', endDate: ' + endDate.toDate());
