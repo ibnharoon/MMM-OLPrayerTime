@@ -171,7 +171,7 @@ function generateTest(rdate) {
   console.log('midnight next: ' + mtime.toDate());
   const mnnext = pt['Midnight'].time.isAfter(mtime);
   Object.entries(prayertime).forEach(([prayerName, prayerTime]) => {
-  if (['Midnight', 'Fajr'].includes(prayerName)) {
+  if (['Midnight'].includes(prayerName)) {
     // console.log('prayer time: ' + prayerTime);
     var fakeTime = '@' + pt[prayerName].time.subtract(2, 'minute').format('YYYY-MM-DD HH:mm:ss');
     // console.log('faketime: ' + fakeTime);
