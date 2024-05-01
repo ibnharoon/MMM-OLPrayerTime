@@ -107,7 +107,6 @@ const stages = [
 ];
 
 const dates = [
-  /*
   {
     'day': 'begin of daylight saving',
     'period': 'before',
@@ -123,13 +122,11 @@ const dates = [
     'period': 'before',
     'date': '2024-11-02'
   },
-  */
   {
     'day': 'end of daylight saving',
     'period': 'after',
     'date': '2024-11-03'
   },
-  /*
   {
     'day': 'end of leap year',
     'period': 'before',
@@ -170,7 +167,6 @@ const dates = [
     'period': 'after',
     'date': '2025-03-01'
   }
-  */
 ];
 
 // 1 day before/after daylight saving starts
