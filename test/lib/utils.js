@@ -103,7 +103,7 @@ function convertTimeStringToDate(timestring, cdatestring, pname) {
   console.log('cpt 1: ' + cpt.toDate() + ', DST: ' + isInDaylightSavingTime(cpt.toDate()));
 
   // if midnight time is after 12:00am, consider it the next day
-  if (pname === 'midnight' && cpt.valueOf() > midnight.valueOf()) {
+  if (pname === 'Midnight' && cpt.isAfter(midnight) {
     console.log('cpt greater than midnight... adding 1 day');
     // cpt = cpt.add(1, "day");
     cpt = cpt.subtract(isInDaylightSavingTime(cpt.toDate()) ? 1 : 0, 'hour');
@@ -111,7 +111,7 @@ function convertTimeStringToDate(timestring, cdatestring, pname) {
 
   console.log('cpt 2: ' + cpt.toDate());
   
-  // if ((pname === 'midnight' && cpt.valueOf() < midnighttime.valueOf()) && isInDaylightSavingTime(cpt.toDate())) {
+  // if ((pname === 'Midnight' && cpt.isBefore(midnighttime)) && isInDaylightSavingTime(cpt.toDate())) {
   //   console.log('DST, subtract 1 hour');
   //   cpt = cpt.subtract(1, 'hour');
   // }
