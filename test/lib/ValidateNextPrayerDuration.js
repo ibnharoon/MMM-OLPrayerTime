@@ -1,4 +1,5 @@
 const Dayjs = require('dayjs');
+var PrayerTime = require('../../lib/PrayerTimes');
 const {
   getElementText
 } = require('./ui');
