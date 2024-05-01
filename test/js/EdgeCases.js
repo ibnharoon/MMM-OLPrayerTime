@@ -98,18 +98,15 @@ const stages = [
     blink: true,
     msg: '1m before'
   },
-  /*
   {
     min: 0,
     delay: 70000,
     blink: false,
     msg: 'on'
   }
-  */
 ];
 
 const dates = [
-  /*
   {
     'day': 'begin of daylight saving',
     'period': 'before',
@@ -120,18 +117,17 @@ const dates = [
     'period': 'after',
     'date': '2024-03-10'
   },
-  */
   {
     'day': 'end of daylight saving',
     'period': 'before',
     'date': '2024-11-02'
   },
-  /*
   {
     'day': 'end of daylight saving',
     'period': 'after',
     'date': '2024-11-03'
   },
+  /*
   {
     'day': 'end of leap year',
     'period': 'before',
