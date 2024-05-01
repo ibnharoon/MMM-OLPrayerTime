@@ -18,14 +18,7 @@ function ValidateNextPrayerDuration(config) {
     console.log('current date string: ' + currentDateString);
     var endDate = convertTimeStringToDate(prayerTimeString, currentDateString, config.nextPrayer);
     console.log('end date before: ' + endDate.toDate() + ', current prayer: ' + config.currentPrayer);
-    if (endDate.isBefore(config.expectedDate)) {
-      console.log('fajr is for yesterday');
-    }
-    if (config.currentPrayer === 'Midnight') {
-      console.log('midnight current prayer');
-    }
-    console.log('condition: ' + (config.currentPrayer === 'Midnight' && endDate.isBefore(this.expectedDate)));
-    if (config.currentPrayer === 'Midnight' && endDate.isBefore(this.expectedDate)) {
+    if (config.currentPrayer === 'Midnight' && endDate.isBefore(config.expectedDate)) {
       console.log('fajr is for yesterday, get today\'s prayer');
       const pt = new PrayerTime(endDate.add(1, 'day').toDate(), 37.3391931, -121.9389783, "en", 12, 'America/Los_Angeles').times;
       endDate = pt['Fajr'].time;
