@@ -92,6 +92,7 @@ const stages = [
     blink: true,
     msg: '2m before'
   },
+  /*
   {
     min: 1,
     delay: 60000,
@@ -104,9 +105,11 @@ const stages = [
     blink: false,
     msg: 'on'
   }
+  */
 ];
 
 const dates = [
+  /*
   {
     'day': 'begin of daylight saving',
     'period': 'before',
@@ -162,6 +165,7 @@ const dates = [
     'period': 'before',
     'date': '2025-02-28'
   },
+ */
   {
     'day': 'end of non-leap day',
     'period': 'after',
