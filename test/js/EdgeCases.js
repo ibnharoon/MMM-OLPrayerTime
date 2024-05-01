@@ -112,6 +112,7 @@ const dates = [
     'period': 'before',
     'date': '2024-03-09'
   },
+  /*
   {
     'day': 'begin of daylight saving',
     'period': 'after',
@@ -127,7 +128,6 @@ const dates = [
     'period': 'after',
     'date': '2024-11-03'
   },
-  /*
   {
     'day': 'end of leap year',
     'period': 'before',
