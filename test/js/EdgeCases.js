@@ -291,6 +291,9 @@ for (const date of dates) {
             }, stage.delay);
           });
 
+          // Show values for debugging
+          ShowValues(config);
+          
           ValidateCurrentDate(config);
           ValidateDurationBlink(config);
           if (stage.min > 0) {
