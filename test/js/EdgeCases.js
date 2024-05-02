@@ -42,6 +42,9 @@ const {
 const {
   ValidatePreviousPrayerHighlighted
 } = require('../lib/ValidatePreviousPrayerHighlighted');
+const {
+  ShowValues
+} = require('../lib/ShowValues');
 
 // Convert exec to a promise-based function for async/await usage
 const execAsync = util.promisify(exec);
