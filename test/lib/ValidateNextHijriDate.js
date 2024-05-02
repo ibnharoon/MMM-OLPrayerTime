@@ -5,6 +5,8 @@ const {
 function ValidateNextHijriDate(config) {
   it('The next hijri date should be correct', async () => {
     console.log('validate next hijri:' + JSON.stringify(config));
+    console.log('expected date: ' + config.expectedDate.toDate());
+
     const date = await getElementText(driver, 'currentTime');
     console.log('date: ' + date);
 
