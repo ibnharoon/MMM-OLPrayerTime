@@ -13,7 +13,7 @@ function ShowValues(config) {
   const duration = await getElementText(driver, 'ptimeDOM-premain');
   console.log('duration: ' + duration);
 
-  
+  const time = await getElementText(driver, 'ptimeDOM-table-td-pname-' + prayer);
 }
 
 module.exports = {
