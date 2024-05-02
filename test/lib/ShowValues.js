@@ -9,6 +9,11 @@ function ShowValues(config) {
 
   const hijri = await getElementText(driver, 'ptimeDOM-table-td-date');
   console.log('hijri: ' + hijri);
+
+  const duration = await getElementText(driver, 'ptimeDOM-premain');
+  console.log('duration: ' + duration);
+
+  
 }
 
 module.exports = {
