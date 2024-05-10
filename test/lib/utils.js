@@ -6,6 +6,7 @@ var dayOfYear = require('dayjs/plugin/dayOfYear');
 var calendarSystems = require('@calidy/dayjs-calendarsystems');
 var HijriCalendarSystem = require('@calidy/dayjs-calendarsystems/calendarSystems/HijriCalendarSystem');
 var PrayerTime = require('../../lib/PrayerTimes');
+var config = require('../config/config');
 
 // Extend Dayjs
 Dayjs.extend(localizedFormat);
@@ -165,7 +166,7 @@ function generateTest(rdate) {
   var result = {};
   console.log('generateTest: rdate: ' + rdate.toDate());
   const mtime = rdate.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).add(1, 'day');
-  const pt = new PrayerTime(rdate.toDate(), 37.3391931, -121.9389783, "en", 12, 'America/Los_Angeles').times;
+  const pt = new PrayerTime(rdate.toDate(), config.latitude, config.longitude, config.language, 12, 'America/Los_Angeles').times;
   const prayertime = Object.keys(pt).reduce((acc, key) => (acc[key] = pt[key].stime, acc), {});
   console.log('prayer time: ' + JSON.stringify(pt));
   console.log('midnight next: ' + mtime.toDate());
