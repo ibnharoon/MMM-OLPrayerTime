@@ -44,7 +44,8 @@ let config = {
 			config: {
         timeFormat: 12,
 				latitude: 37.3391931,
-				longitude: -121.9389783
+				longitude: -121.9389783,
+				timezone: 'America/Los_Angeles'
 			}
     }
 	]
