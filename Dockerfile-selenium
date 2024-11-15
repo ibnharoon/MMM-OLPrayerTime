@@ -10,7 +10,9 @@ RUN apt-get update && \
 RUN locale-gen en_US.UTF-8
 
 # Install Selenium for Python
-RUN pipx install selenium
+RUN python -m venv ~/venv
+RUN source ~/venv/bin/activate
+RUN pip install selenium
 
 ARG FAKETIME
 ENV FAKETIME="${FAKETIME}" LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1"
