@@ -216,17 +216,17 @@ for (const date of dates) {
         // var seldate = await execAsync('docker exec mm-selenium date');
         // console.log('selenium date:');
         // console.log(JSON.stringify(seldate));  
-        var selvars = await execAsync('docker exec mm-selenium env');
-        console.log('selenium env:');
-        console.log(JSON.stringify(selvars));
+        // var selvars = await execAsync('docker exec mm-selenium env');
+        // console.log('selenium env:');
+        // console.log(JSON.stringify(selvars));
 
-        var selos = await execAsync('docker exec mm-selenium lsb_release -a');
-        console.log('os version: ' + JSON.stringify(selos));
-        var selosrel = await execAsync('docker exec mm-selenium uname -a');
-        console.log('os release: ' + JSON.stringify(selosrel));
+        // var selos = await execAsync('docker exec mm-selenium lsb_release -a');
+        // console.log('os version: ' + JSON.stringify(selos));
+        // var selosrel = await execAsync('docker exec mm-selenium uname -a');
+        // console.log('os release: ' + JSON.stringify(selosrel));
 
-        var javaver = await execAsync('docker exec mm-selenium java -version');
-        console.log('java version: ' + JSON.stringify(javaver));
+        // var javaver = await execAsync('docker exec mm-selenium java -version');
+        // console.log('java version: ' + JSON.stringify(javaver));
       
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
