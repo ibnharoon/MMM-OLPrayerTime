@@ -63,18 +63,21 @@ function isInDaylightSavingTime(date) {
  */
 async function initializeSeleniumDriver(url, retryCount = 1, interval = 5000) {
   let attempt = 0;
-  while (attempt < retryCount) {
-    try {
-      // Try to create a driver instance to check if the Selenium server is up
-      const driver = await new Builder()
+  
+  // Try to create a driver instance to check if the Selenium server is up
+  const driver = await new Builder()
         .forBrowser('chrome')
+        .usingServer(url)
         .build();
 
-      return driver; // Server is up
-    } catch (error) {
-      console.log(`Selenium server not up yet, retrying... (${++attempt}/${retryCount})`);
-      await new Promise(resolve => setTimeout(resolve, interval));
-    }
+  try {
+    // Wait for a specific element to appear, indicating the driver is ready
+    await driver.wait(until.elementLocated(By.css('body')), interval);
+    console.log('Driver is ready');
+    return driver;
+  } catch (err) {
+    console.error('Error building driver:', err);
+    throw err;
   }
 
   // driver could not be created
