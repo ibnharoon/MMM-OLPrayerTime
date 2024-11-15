@@ -167,8 +167,6 @@ function generateTest(rdate) {
   console.log('generateTest: rdate: ' + rdate.toDate());
   const mtime = rdate.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).add(1, 'day');
   console.log('config: ' + JSON.stringify(config.modules));
-  const prconfig1 = Objects.entries(config.modules);
-  console.log('prconfig1: ' + JSON.stringify(prconfig1));
   const prconfig = config.modules.filter(elem => elem.module === 'MMM-OLPrayerTime')[0];
   console.log('prconfig: ' + JSON.stringify(prconfig));
   const pt = new PrayerTime(rdate.toDate(), prconfig.latitude, prconfig.longitude, config.language, config.timeFormat, prconfig.timezone).times;
