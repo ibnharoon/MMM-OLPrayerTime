@@ -220,7 +220,7 @@ for (const date of dates) {
         console.log('selenium env:');
         console.log(JSON.stringify(selvars));
 
-        var selos = await execAsync('docker exec mm-selenium lsb_release');
+        var selos = await execAsync('docker exec mm-selenium lsb_release -a');
         console.log('os version: ' + JSON.stringify(selos));
         var selosrel = await execAsync('docker exec mm-selenium uname -a');
         console.log('os release: ' + JSON.stringify(selosrel));
