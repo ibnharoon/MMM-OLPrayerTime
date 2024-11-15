@@ -18,7 +18,7 @@ USER seluser
 # Install Selenium for Python
 RUN python3 -m venv ~/venv
 RUN source ~/venv/bin/activate
-RUN pip install selenium
+RUN python3 -m pip install selenium
 
 ARG FAKETIME
 ENV FAKETIME="${FAKETIME}" \
