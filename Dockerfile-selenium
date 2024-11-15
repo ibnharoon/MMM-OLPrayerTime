@@ -1,5 +1,6 @@
 # Start with the official Selenium Standalone Chrome image
 FROM selenium/standalone-chrome:latest
+SHELL ["/bin/bash", "-c"]
 
 USER root
 
@@ -16,10 +17,7 @@ USER seluser
 
 # Install Selenium for Python
 RUN python3 -m venv ~/venv
-RUN ls -lastr ~/venv/bin
-RUN chmod +x  ~/venv/bin/activate
-RUN ls -lastr ~/venv/bin
-RUN ~/venv/bin/activate
+RUN source ~/venv/bin/activate
 RUN pip install selenium
 
 ARG FAKETIME
