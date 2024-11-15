@@ -18,6 +18,15 @@ ARG FAKETIME
 ENV FAKETIME="${FAKETIME}" LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1"
 
 USER seluser
+
+# Install Selenium for Python
+RUN python3 -m venv ~/venv
+RUN ls -lastr ~/venv/bin
+RUN chmod +x  ~/venv/bin/activate
+RUN ls -lastr ~/venv/bin
+RUN ~/venv/bin/activate
+RUN pip install selenium
+
 ARG FAKETIME
 ENV FAKETIME="${FAKETIME}" \
   LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1" \
