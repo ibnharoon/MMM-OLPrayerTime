@@ -1,5 +1,5 @@
 # Start with the official Selenium Standalone Chrome image
-FROM selenium/standalone-chrome:130.0-chromedriver-130.0
+FROM selenium/standalone-chrome:117.0-20231004
 SHELL ["/bin/bash", "-c"]
 
 USER root
