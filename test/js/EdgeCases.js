@@ -219,16 +219,24 @@ for (const date of dates) {
         var selvars = await execAsync('docker exec mm-selenium env');
         console.log('selenium env:');
         console.log(JSON.stringify(selvars));
+
+        var selos = await execAsync('docker exec mm-selenium lsb_release');
+        console.log('os version: ' + selos);
+        var selosrel = await execAsync('docker exec mm-selenium uname -a');
+        console.log('os release: ' + selosrel);
+
+        var javaver = await execAsync('docker exec mm-selenium java -version');
+        console.log('java version: ' + javaver);
       
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
-        // console.log('mm ip: "' + mmip + '"');
+        console.log('mm ip: "' + mmip + '"');
         
         var selip = await execAsync('docker exec mm-selenium hostname -i');
         selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
-        // console.log('selenium ip:"' + selip + '"');
+        console.log('selenium ip:"' + selip + '"');
         
-        const seleniumServerUrl = 'http://localhost:4444/wd/hub';
+        const seleniumServerUrl = 'http://' + selip + ':4444/wd/hub';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
         // Assert that driver is initialized successfully
         expect(driver, 'Selenium server did not start within the expected time.').to.not.be.null;
