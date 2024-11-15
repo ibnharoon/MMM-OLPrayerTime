@@ -17,6 +17,7 @@ services:
     image: mm-selenium
     ports:
       - "4444:4444"
+    privileged: true
     networks:
       - mm-network
 
