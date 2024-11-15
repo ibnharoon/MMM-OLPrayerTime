@@ -4,7 +4,7 @@
   "description": "This is a module for the [MagicMirror](https://github.com/MichMich/MagicMirror). It will show Muslim prayer times.",
   "main": "MMM-OLPrayerTime.js",
   "scripts": {
-    "test": "mocha --config=mocha.json"
+    "test": "mocha --config=mocha.json --exit"
   },
   "author": "",
   "license": "GPL",
