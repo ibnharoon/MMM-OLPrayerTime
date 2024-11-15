@@ -221,12 +221,12 @@ for (const date of dates) {
         console.log(JSON.stringify(selvars));
 
         var selos = await execAsync('docker exec mm-selenium lsb_release');
-        console.log('os version: ' + selos);
+        console.log('os version: ' + JSON.stringify(selos));
         var selosrel = await execAsync('docker exec mm-selenium uname -a');
-        console.log('os release: ' + selosrel);
+        console.log('os release: ' + JSON.stringify(selosrel));
 
         var javaver = await execAsync('docker exec mm-selenium java -version');
-        console.log('java version: ' + javaver);
+        console.log('java version: ' + JSON.stringify(javaver));
       
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
