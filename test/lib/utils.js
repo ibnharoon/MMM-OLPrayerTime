@@ -55,13 +55,13 @@ function isInDaylightSavingTime(date) {
  * Parameters:
  *   url        - URL for the selenium instance 
  *   retryCount - number of retries 
- *   interval   - retry interval
+ *   interval   - retry interval in milliseconds
  *
  * Returns: the selenium driver instance if it's up or null if it ran
  * out of retries.
  *
  */
-async function initializeSeleniumDriver(url, retryCount = 3, interval = 7000) {
+async function initializeSeleniumDriver(url, retryCount = 3, interval = 11000) {
   let attempt = 0;
   while (attempt < retryCount) {
     try {
