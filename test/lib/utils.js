@@ -169,7 +169,7 @@ function generateTest(rdate) {
   console.log('config: ' + JSON.stringify(config.modules));
   const prconfig = config.modules.filter(elem => elem.module === 'MMM-OLPrayerTime')[0].config;
   console.log('prconfig: ' + JSON.stringify(prconfig));
-  const pt = new PrayerTime(rdate.toDate(), prconfig.latitude, prconfig.longitude, prconfig.language, prconfig.timeFormat, prconfig.timezone).times;
+  const pt = new PrayerTime(rdate.toDate(), prconfig.latitude, prconfig.longitude, config.language, prconfig.timeFormat, prconfig.timezone).times;
   const prayertime = Object.keys(pt).reduce((acc, key) => (acc[key] = pt[key].stime, acc), {});
   console.log('prayer time: ' + JSON.stringify(pt));
   console.log('midnight next: ' + mtime.toDate());
