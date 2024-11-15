@@ -16,7 +16,7 @@ ENV FAKETIME="${FAKETIME}" LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfak
 USER seluser
 
 # use python virtual environment
-RUN python3 -m venv ~/venv
+RUN python3 -m venv ~/venv --without-pip
 RUN source ~/venv/bin/activate
 
 ARG FAKETIME
