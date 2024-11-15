@@ -167,9 +167,9 @@ function generateTest(rdate) {
   console.log('generateTest: rdate: ' + rdate.toDate());
   const mtime = rdate.set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).add(1, 'day');
   console.log('config: ' + JSON.stringify(config.modules));
-  const prconfig = config.modules.filter(elem => elem.module === 'MMM-OLPrayerTime')[0];
+  const prconfig = config.modules.filter(elem => elem.module === 'MMM-OLPrayerTime').config;
   console.log('prconfig: ' + JSON.stringify(prconfig));
-  const pt = new PrayerTime(rdate.toDate(), prconfig.latitude, prconfig.longitude, config.language, config.timeFormat, prconfig.timezone).times;
+  const pt = new PrayerTime(rdate.toDate(), prconfig.latitude, prconfig.longitude, prconfig.language, prconfig.timeFormat, prconfig.timezone).times;
   const prayertime = Object.keys(pt).reduce((acc, key) => (acc[key] = pt[key].stime, acc), {});
   console.log('prayer time: ' + JSON.stringify(pt));
   console.log('midnight next: ' + mtime.toDate());
