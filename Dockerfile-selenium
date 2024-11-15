@@ -6,7 +6,7 @@ USER root
 
 # Install Python and pip
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip faketime libfaketime locales locales-all pipx
+    apt-get install -y python3 python3-pip python3-selenium faketime libfaketime locales locales-all
 
 RUN locale-gen en_US.UTF-8
 
@@ -15,10 +15,9 @@ ENV FAKETIME="${FAKETIME}" LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfak
 
 USER seluser
 
-# Install Selenium for Python
+# use python virtual environment
 RUN python3 -m venv ~/venv
 RUN source ~/venv/bin/activate
-RUN python3 -m pip install selenium
 
 ARG FAKETIME
 ENV FAKETIME="${FAKETIME}" \
