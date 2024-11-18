@@ -231,9 +231,6 @@ for (const date of dates) {
         var dockrun = await execAsync('docker ps');
         console.log('java version: ' + JSON.stringify(dockrun));
 
-        var selipaddr = await execAsync('docker inspect mm-selenium | grep "IPAddress"');
-        console.log('sel ip: ' + JSON.stringify(selipaddr));
-
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
         console.log('mm ip: "' + mmip + '"');
@@ -242,11 +239,12 @@ for (const date of dates) {
         selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
         console.log('selenium ip:"' + selip + '"');
 
-        var selcurl = await execAsync('curl http://mm-selenium:4444/wd/hub');
+        const seleniumServerUrl = 'http://' + selip + ':4444/wd/hub';
+        var selcurl = await execAsync('curl ' + seleniumServerUrl);
         console.log('selcurl: ' + JSON.stringify(selcurl));
         
-        const seleniumServerUrl = 'http://' + selip + ':4444/wd/hub';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
+        
         // Assert that driver is initialized successfully
         expect(driver, 'Selenium server did not start within the expected time.').to.not.be.null;
 
