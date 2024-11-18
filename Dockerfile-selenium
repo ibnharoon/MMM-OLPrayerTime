@@ -38,4 +38,4 @@ ENV FAKETIME="${FAKETIME}" \
 
 USER root
 RUN echo user=root >>  /etc/supervisor/supervisord.conf
-CMD ["/usr/bin/supervisord","-n"]
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
