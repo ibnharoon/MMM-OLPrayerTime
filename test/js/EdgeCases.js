@@ -244,6 +244,9 @@ for (const date of dates) {
         var selip = await execAsync('docker exec mm-selenium hostname -i');
         selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
         console.log('selenium ip:"' + selip + '"');
+
+        var selcurl = await execAsync('curl http://mm-selenium:4444/wd/hub');
+        console.log('selcurl: ' + JSON.stringify(selcurl));
         
         const seleniumServerUrl = 'http://' + selip + ':4444/wd/hub';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
