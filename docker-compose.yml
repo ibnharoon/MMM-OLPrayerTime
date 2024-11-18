@@ -11,6 +11,8 @@ services:
       - server
     networks:
       - mm-network
+    depends_on:
+      - selenium
 
   selenium:
     container_name: mm-selenium
@@ -18,10 +20,12 @@ services:
     ports:
       - "4444:4444"
     privileged: true
+    shm_size: 2g
     networks:
       - mm-network
 
 networks:
   mm-network:
-    ipam:
-      driver: default
+    external: true
+    driver: default
+    
