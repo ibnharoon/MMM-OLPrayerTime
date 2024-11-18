@@ -231,9 +231,6 @@ for (const date of dates) {
         var dockrun = await execAsync('docker ps');
         console.log('java version: ' + JSON.stringify(dockrun));
 
-        var selnet = await execAsync('docker exec -it mm-selenium netstat -tuln | grep 4444');
-        console.log('selnet: ' + JSON.stringify(selnet));
-
         var selipaddr = await execAsync('docker inspect mm-selenium | grep "IPAddress"');
         console.log('sel ip: ' + JSON.stringify(selipaddr));
 
