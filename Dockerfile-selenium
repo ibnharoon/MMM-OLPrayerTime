@@ -35,8 +35,3 @@ ENV FAKETIME="${FAKETIME}" \
   LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1" \
   TZ="America/Los_Angeles" \
   LANG=en_US.UTF-8
-
-USER root
-RUN echo user=root >>  /etc/supervisor/conf.d/selenium.conf
-CMD ["/usr/bin/supervisord", "-n"]
-EXPOSE 4444
