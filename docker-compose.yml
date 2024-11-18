@@ -25,6 +25,4 @@ services:
 networks:
   mm-network:
     external: true
-    ipam:
-      driver: default
-    
+    driver: bridge
