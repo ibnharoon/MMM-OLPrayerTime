@@ -240,9 +240,6 @@ for (const date of dates) {
         console.log('selenium ip:"' + selip + '"');
 
         const seleniumServerUrl = 'http://' + selip + ':4444/wd/hub';
-        var selcurl = await execAsync('curl ' + seleniumServerUrl);
-        console.log('selcurl: ' + JSON.stringify(selcurl));
-        
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
         
         // Assert that driver is initialized successfully
