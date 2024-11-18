@@ -227,7 +227,16 @@ for (const date of dates) {
 
         // var javaver = await execAsync('docker exec mm-selenium java -version');
         // console.log('java version: ' + JSON.stringify(javaver));
-      
+
+        var dockrun = await execAsync('docker ps');
+        console.log('java version: ' + JSON.stringify(dockrun));
+
+        var selnet = await execAsync('docker exec -it mm-selenium netstat -tuln | grep 4444');
+        console.log('selnet: ' + JSON.stringify(selnet));
+
+        var selipaddr = await execAsync('docker inspect mm-selenium | grep "IPAddress"');
+        console.log('sel ip: ' + JSON.stringify(selipaddr));
+
         var mmip = await execAsync('docker exec mm-magicmirror hostname -i');
         mmip = mmip.stdout.replace(/(\r\n|\n|\r)/gm,"");
         console.log('mm ip: "' + mmip + '"');
