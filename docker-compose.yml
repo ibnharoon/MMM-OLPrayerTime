@@ -11,8 +11,6 @@ services:
       - server
     networks:
       - mm-network
-    depends_on:
-      - selenium
 
   selenium:
     container_name: mm-selenium
@@ -27,5 +25,6 @@ services:
 networks:
   mm-network:
     external: true
-    driver: default
+    ipam:
+      driver: default
     
