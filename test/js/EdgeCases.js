@@ -229,6 +229,9 @@ for (const date of dates) {
         // var javaver = await execAsync('docker exec mm-selenium java -version');
         // console.log('java version: ' + JSON.stringify(javaver));
 
+        var mmnet = await execAsync('docker network inspect mm-network');
+        console.log('docker network: ' + JSON.stringify(mmnet));
+        
         var selsup = await execAsync('docker exec mm-selenium cat /etc/supervisor/conf.d/selenium.conf');
         console.log('selenium supervisor config: ' + JSON.stringify(selsup));
 
