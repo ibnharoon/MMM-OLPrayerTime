@@ -231,7 +231,7 @@ for (const date of dates) {
         var selsup = await execAsync('docker exec mm-selenium cat /etc/supervisor/conf.d/selenium.conf');
         console.log('selenium supervisor config: ' + JSON.stringify(selsup));
 
-        var selep = await execAsync('docker exec mm-selenium ls -lastr /opt/bin');
+        var selep = await execAsync('docker exec mm-selenium cat /opt/bin/entry_point.sh');
         console.log('selenium entry point: ' + JSON.stringify(selep));
 
         var dockrun = await execAsync('docker ps');
