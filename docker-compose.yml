@@ -9,6 +9,8 @@ services:
       - npm
       - run
       - server
+    networks:
+      - mm-network
 
   selenium:
     container_name: mm-selenium
@@ -17,3 +19,9 @@ services:
       - "4444:4444"
     privileged: true
     shm_size: 2g
+    networks:
+      - mm-network
+
+networks:
+  mm-network:
+    external: true
