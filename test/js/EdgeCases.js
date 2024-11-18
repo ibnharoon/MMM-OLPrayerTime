@@ -204,6 +204,7 @@ for (const date of dates) {
         // Build and start Docker containers configured to 2m before the current prayer starts
         await execAsync(`docker build --build-arg "FAKETIME=${fakeTime}" -t mm-magicmirror . --file Dockerfile-mm`);
         await execAsync(`docker build --build-arg "FAKETIME=${fakeTime}" -t mm-selenium . --file Dockerfile-selenium`);
+        await execAsync(`docker network create mm-network`);
         await execAsync('docker compose up -d');  // Start the Docker environment
         
         // var mmdate = await execAsync('docker exec mm-magicmirror date');
