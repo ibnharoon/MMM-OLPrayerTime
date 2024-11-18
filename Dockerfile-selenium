@@ -1,5 +1,5 @@
 # Start with the official Selenium Standalone Chrome image
-FROM selenium/standalone-chrome:117.0-20231004
+FROM selenium/standalone-chrome:130.0-20241101
 SHELL ["/bin/bash", "-c"]
 
 USER root
@@ -35,3 +35,6 @@ ENV FAKETIME="${FAKETIME}" \
   LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1" \
   TZ="America/Los_Angeles" \
   LANG=en_US.UTF-8
+
+USER root
+
