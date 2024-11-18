@@ -37,4 +37,5 @@ ENV FAKETIME="${FAKETIME}" \
   LANG=en_US.UTF-8
 
 USER root
-
+RUN echo user=root >>  /etc/supervisor/supervisord.conf
+CMD ["/usr/bin/supervisord","-n"]
