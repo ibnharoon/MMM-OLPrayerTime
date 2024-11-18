@@ -25,3 +25,5 @@ services:
 networks:
   mm-network:
     external: true
+    attachable: true
+
