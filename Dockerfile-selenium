@@ -24,6 +24,8 @@ RUN locale-gen en_US.UTF-8
 ARG FAKETIME
 ENV FAKETIME="${FAKETIME}" LD_PRELOAD="/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1"
 
+EXPOSE 444
+
 USER seluser
 
 # use python virtual environment
