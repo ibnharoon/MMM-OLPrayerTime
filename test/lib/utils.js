@@ -1,4 +1,4 @@
-const { Builder } = require('selenium-webdriver');
+const { Builder, Options } = require('selenium-webdriver');
 var Dayjs = require('dayjs');
 var AdvancedFormat = require('dayjs/plugin/advancedFormat');
 var localizedFormat = require('dayjs/plugin/localizedFormat');
@@ -65,9 +65,11 @@ async function initializeSeleniumDriver(url, retryCount = 1, interval = 5000) {
   let attempt = 0;
   
   // Try to create a driver instance to check if the Selenium server is up
+  const options = new Options();
+  options.addArguments('--remote-debugging-pipe');
   const driver = await new Builder()
         .forBrowser('chrome')
-        .setChromeOptions(options.addArguments('--remote-debugging-pipe'))
+        .setChromeOptions(options)
         .build();
 
   try {
