@@ -255,6 +255,9 @@ for (const date of dates) {
         var firewall = await execAsync('docker exec mm-selenium sudo iptables -L');
         console.log('firewall: ' + JSON.stringify(firewall));
 
+        var process = await execAsync('docker exec mm-selenium sudo ps -leaf');
+        console.log('process: ' + JSON.stringify(process));
+
         const seleniumServerUrl = 'http://' + selip + ':4444';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
         
