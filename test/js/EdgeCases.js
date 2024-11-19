@@ -206,6 +206,9 @@ for (const date of dates) {
         await execAsync(`docker build --build-arg "FAKETIME=${fakeTime}" -t mm-selenium . --file Dockerfile-selenium`);
         await execAsync(`docker network create mm-network`);
         await execAsync('docker compose up -d');  // Start the Docker environment
+
+        // wait for 3 minutes
+        await new Promise(r => setTimeout(r, 180000));
         
         // var mmdate = await execAsync('docker exec mm-magicmirror date');
         // console.log('mm date:');
