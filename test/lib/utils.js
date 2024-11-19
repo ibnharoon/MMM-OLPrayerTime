@@ -63,8 +63,6 @@ function isInDaylightSavingTime(date) {
  *
  */
 async function initializeSeleniumDriver(url, retryCount = 1, interval = 5000) {
-  let attempt = 0;
-  
   // Try to create a driver instance to check if the Selenium server is up
   const options = new chrome.Options();
   options.addArguments('--remote-debugging-pipe');
@@ -72,20 +70,6 @@ async function initializeSeleniumDriver(url, retryCount = 1, interval = 5000) {
         .forBrowser('chrome')
         .setChromeOptions(options)
         .build();
-
-  try {
-    await driver.get(url);
-    // Wait for a specific element to appear, indicating the driver is ready
-    await driver.wait(until.elementLocated(By.css('body')), interval);
-    console.log('Driver is ready');
-    return driver;
-  } catch (err) {
-    console.error('Error building driver:', err);
-    throw err;
-  }
-
-  // driver could not be created
-  return null;
 }
 
 function convertTimeStringToDate(timestring, cdatestring, pname) {
