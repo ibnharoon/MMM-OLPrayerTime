@@ -231,12 +231,15 @@ for (const date of dates) {
 
         var mmnet = await execAsync('docker network inspect mm-network');
         console.log('docker network: ' + JSON.stringify(mmnet));
-        
-        var selsup = await execAsync('docker exec mm-selenium cat /etc/supervisor/conf.d/selenium.conf');
-        console.log('selenium supervisor config: ' + JSON.stringify(selsup));
 
-        var selep = await execAsync('docker exec mm-selenium cat /opt/bin/entry_point.sh');
-        console.log('selenium entry point: ' + JSON.stringify(selep));
+        var fwstat = await execAsync('docker exec mm-selenium iptables -L');
+        console.log('firewall: ' + JSON.stringify(fwstat));
+        
+        //var selsup = await execAsync('docker exec mm-selenium cat /etc/supervisor/conf.d/selenium.conf');
+        //console.log('selenium supervisor config: ' + JSON.stringify(selsup));
+
+        //var selep = await execAsync('docker exec mm-selenium cat /opt/bin/entry_point.sh');
+        //console.log('selenium entry point: ' + JSON.stringify(selep));
 
         var dockrun = await execAsync('docker ps');
         console.log('docker ps: ' + JSON.stringify(dockrun));
