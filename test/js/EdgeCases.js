@@ -261,7 +261,7 @@ for (const date of dates) {
         var process = await execAsync('docker exec mm-selenium sudo ps -leaf');
         console.log('process: ' + JSON.stringify(process));
 
-        const seleniumServerUrl = 'http://' + selip + ':4444';
+        const seleniumServerUrl = 'http://' + selip + ':4444/wd/hub/status';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
         
         // Assert that driver is initialized successfully
