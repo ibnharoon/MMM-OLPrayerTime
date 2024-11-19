@@ -231,9 +231,6 @@ for (const date of dates) {
 
         var mmnet = await execAsync('docker network inspect mm-network');
         console.log('docker network: ' + JSON.stringify(mmnet));
-
-        var fwstat = await execAsync('docker exec mm-selenium iptables -L');
-        console.log('firewall: ' + JSON.stringify(fwstat));
         
         //var selsup = await execAsync('docker exec mm-selenium cat /etc/supervisor/conf.d/selenium.conf');
         //console.log('selenium supervisor config: ' + JSON.stringify(selsup));
@@ -251,6 +248,9 @@ for (const date of dates) {
         var selip = await execAsync('docker exec mm-selenium hostname -i');
         selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
         console.log('selenium ip:"' + selip + '"');
+
+        var ping = await execAsync('ping -c 3 ' + selip);
+        console.log('ping: ' + JSON.stringify(ping));
 
         const seleniumServerUrl = 'http://' + selip + ':4444';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
