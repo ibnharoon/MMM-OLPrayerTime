@@ -14,7 +14,7 @@ USER root
 
 # Install Python and pip
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip python3-selenium faketime libfaketime locales locales-all lsb-release
+    apt-get install -y python3 python3-pip python3-selenium faketime libfaketime locales locales-all lsb-release net-tools
 
 # Show the OS version
 RUN lsb_release -a
