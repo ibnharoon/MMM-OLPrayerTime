@@ -249,7 +249,7 @@ for (const date of dates) {
         selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
         console.log('selenium ip:"' + selip + '"');
 
-        var netstat = await execAsync('docker exec mm-selenium ss -anut');
+        var netstat = await execAsync('docker exec mm-selenium sudo netstat -tulpen');
         console.log('netstat: ' + JSON.stringify(netstat));
 
         const seleniumServerUrl = 'http://' + selip + ':4444';
