@@ -249,8 +249,8 @@ for (const date of dates) {
         selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
         console.log('selenium ip:"' + selip + '"');
 
-        var ping = await execAsync('ping -c 3 ' + selip);
-        console.log('ping: ' + JSON.stringify(ping));
+        var netstat = await execAsync('ss -anut');
+        console.log('netstat: ' + JSON.stringify(netstat));
 
         const seleniumServerUrl = 'http://' + selip + ':4444';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
