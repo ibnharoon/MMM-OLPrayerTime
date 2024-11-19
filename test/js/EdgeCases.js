@@ -249,8 +249,11 @@ for (const date of dates) {
         selip = selip.stdout.replace(/(\r\n|\n|\r)/gm,"")
         console.log('selenium ip:"' + selip + '"');
 
-        var netstat = await execAsync('docker exec mm-selenium sudo netstat -tulpen');
+        var netstat = await execAsync('docker exec mm-selenium sudo netstat -an');
         console.log('netstat: ' + JSON.stringify(netstat));
+
+        var firewall = await execAsync('docker exec mm-selenium sudo iptables -L');
+        console.log('firewall: ' + JSON.stringify(firewall));
 
         const seleniumServerUrl = 'http://' + selip + ':4444';
         driver = await initializeSeleniumDriver(seleniumServerUrl);  // Wait for the selenium server to be fully up and running
